@@ -18,7 +18,7 @@ const trendColor = onDark
 ---
 <div class={`grid gap-1.5 content-start rounded-[var(--radius-card)] border p-4 transition-[transform,box-shadow] duration-150 hover:-translate-y-0.5 ${surface}`}>
   <span class={`text-[13px] font-medium ${labelColor}`}>{label}</span>
-  <span class="num text-[clamp(22px,2.6vw,30px)] font-semibold tracking-[-0.02em] leading-[1.1]">{value}</span>
+  <span data-kpi-value class="num text-[clamp(22px,2.6vw,30px)] font-semibold tracking-[-0.02em] leading-[1.1]">{value}</span>
   {delta && <span class={`num text-[13px] font-semibold ${trendColor}`}>{delta}</span>}
   <slot />
 </div>

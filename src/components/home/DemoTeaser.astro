@@ -1,0 +1,38 @@
+---
+import Button from "../Button.astro";
+import SampleBadge from "../SampleBadge.astro";
+import { barsSvg, MONTHS, SAMPLE } from "../../lib/charts";
+const svg = barsSvg(SAMPLE.revenueActual, SAMPLE.revenueBudget, MONTHS);
+---
+<section class="py-section" aria-labelledby="demo-title" data-reveal>
+  <div class="wrap grid gap-12">
+    <div class="grid gap-5 md:grid-cols-[7fr_5fr] md:items-end">
+      <div class="grid gap-5">
+        <hr class="border-0 border-t border-ink" />
+        <span class="eyebrow text-ink-2">Demo</span>
+        <h2 id="demo-title" class="text-h2">Klik zelf door een dashboard.</h2>
+        <p class="text-ink-2">Filter op periode en zie waar een afwijking van budget vandaan komt. Alle cijfers zijn voorbeelddata van een fictief bedrijf.</p>
+      </div>
+      <div class="md:justify-self-end"><Button href="/demo" variant="primary" arrow>Open het demo-dashboard</Button></div>
+    </div>
+
+    <figure class="grid gap-4 min-w-0 rounded-[var(--radius-card)] border border-line bg-white p-[clamp(16px,2.4vw,28px)]">
+      <figcaption class="flex flex-wrap justify-between gap-3 items-baseline">
+        <span class="font-semibold">Omzet tegen budget <span class="text-ink-2 font-normal">· k€</span></span>
+        <SampleBadge />
+      </figcaption>
+      <ul class="flex flex-wrap gap-4 text-[13px] text-ink-2" aria-hidden="true">
+        <li class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-sm bg-d1"></span>Realisatie</li>
+        <li class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-sm bg-d3"></span>Budget</li>
+        <li class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-sm bg-accent-on-light"></span>Grootste afwijking</li>
+      </ul>
+      <div class="overflow-x-auto">
+        <svg class="chart w-full min-w-[560px] h-auto block" viewBox="0 0 900 300" role="img" aria-label="Staafgrafiek omzet tegen budget per maand. Grootste afwijking in augustus: 79k tegen 85k budget. Voorbeelddata." set:html={svg}></svg>
+      </div>
+    </figure>
+  </div>
+</section>
+
+<style>
+  .chart :global(text) { font-family: var(--font-sans); font-size: 12px; font-variant-numeric: tabular-nums; }
+</style>

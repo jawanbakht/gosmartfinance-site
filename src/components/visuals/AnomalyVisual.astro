@@ -1,0 +1,28 @@
+---
+// AI-tools: weekreeks inkoopkosten met twee gemarkeerde afwijkingen (voorbeelddata).
+import { fmt, niceMax } from "../../lib/charts";
+const v = [41, 43, 40, 44, 42, 58, 43, 41, 45, 44, 39, 42, 61, 44];
+const anomalies = [5, 12];
+const W = 600, H = 240, L = 40, R = 10, T = 14, B = 26;
+const iw = W - L - R, ih = H - T - B, max = niceMax(Math.max(...v) * 1.1);
+const x = (i: number) => L + (i * iw) / (v.length - 1);
+const y = (n: number) => T + ih - (n / max) * ih;
+const avg = v.reduce((a, b) => a + b, 0) / v.length;
+const d = "M" + v.map((n, i) => `${x(i)},${y(n)}`).join("L");
+---
+<svg viewBox={`0 0 ${W} ${H}`} class="w-full h-auto block" role="img" aria-label="Inkoopkosten per week met twee afwijkingen boven het gemiddelde gemarkeerd, voorbeelddata">
+  {[0, 0.25, 0.5, 0.75, 1].map((f) => (
+    <>
+      <line x1={L} x2={W - R} y1={y(max * f)} y2={y(max * f)} style="stroke:var(--color-line)" />
+      <text x={L - 6} y={y(max * f) + 4} text-anchor="end" class="text-[12px] num" style="fill:var(--color-ink-2)">{fmt(Math.round(max * f))}</text>
+    </>
+  ))}
+  <line x1={L} x2={W - R} y1={y(avg)} y2={y(avg)} style="stroke:var(--color-ink-2)" stroke-dasharray="4 4" />
+  <text x={W - R} y={y(avg) - 6} text-anchor="end" class="text-[12px]" style="fill:var(--color-ink-2)">gemiddelde</text>
+  <path d={d} fill="none" style="stroke:var(--color-d1)" stroke-width="2.2" stroke-linejoin="round" />
+  {v.map((n, i) => anomalies.includes(i)
+    ? <><circle cx={x(i)} cy={y(n)} r="9" fill="none" style="stroke:var(--color-accent-on-light)" stroke-width="2" /><circle cx={x(i)} cy={y(n)} r="4" style="fill:var(--color-accent-on-light)" /></>
+    : <circle cx={x(i)} cy={y(n)} r="2.5" style="fill:var(--color-d1)" />)}
+  <text x={x(12) - 14} y={y(61) - 4} text-anchor="end" class="text-[12px] font-semibold num" style="fill:var(--color-accent-on-light)">week 13: +{Math.round((61 / avg - 1) * 100)}%</text>
+  {[0, 4, 8, 13].map((i) => <text x={x(i)} y={H - 6} text-anchor="middle" class="text-[12px] num" style="fill:var(--color-ink-2)">wk {i + 1}</text>)}
+</svg>

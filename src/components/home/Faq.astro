@@ -1,0 +1,51 @@
+---
+// Alleen antwoorden met status "Concept" staan live. De rest volgt zodra Sakhi ze aanlevert.
+const faqs = [
+  {
+    q: "Voor wie is dit bedoeld?",
+    a: "Voor CFO's, controllers, finance managers en accountants die elke maand hetzelfde handwerk doen in afsluiting en rapportage. En voor directeuren die sneller betrouwbare cijfers willen.",
+  },
+  {
+    q: "Wat gebeurt er in het gratis gesprek?",
+    a: "Je vertelt in 20 minuten waar de tijd in je afsluiting of rapportage naartoe gaat. Daarna hoor je of een tool daarbij helpt en wat ervoor nodig is. Je zit nergens aan vast.",
+  },
+  {
+    q: "Zijn de dashboards aan te passen?",
+    a: "Ja. Een dashboard wordt ingericht op jouw KPI's, rekeningschema en kostenplaatsen.",
+  },
+  {
+    q: "Wat levert het op?",
+    a: "Minder uren handwerk in afsluiting en rapportage, en cijfers die eerder bij de directie liggen. Hoeveel hangt af van je proces. Dat brengen we in het eerste gesprek in kaart.",
+  },
+];
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+};
+---
+<section class="py-section" aria-labelledby="faq-title" data-reveal>
+  <div class="wrap grid gap-12 md:grid-cols-[4fr_8fr]">
+    <div class="grid gap-5 content-start">
+      <hr class="border-0 border-t border-ink" />
+      <span class="eyebrow text-ink-2">Vragen</span>
+      <h2 id="faq-title" class="text-h2">Wat je wilt weten voordat je belt.</h2>
+    </div>
+    <div class="border-b border-line">
+      {faqs.map((f) => (
+        <details class="group border-t border-line">
+          <summary class="list-none flex justify-between items-center gap-6 py-6 cursor-pointer text-[19px] font-semibold tracking-[-0.01em] hover:text-navy-700">
+            {f.q}
+            <span class="flex-none grid place-items-center w-8 h-8 rounded-full border border-line text-ink-2 transition-transform duration-300 group-open:rotate-45" aria-hidden="true">+</span>
+          </summary>
+          <p class="pb-6 pr-12 text-ink-2 max-w-[64ch]">{f.a}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+  <script type="application/ld+json" set:html={JSON.stringify(schema)}></script>
+</section>
+
+<style>
+  summary::-webkit-details-marker { display: none; }
+</style>

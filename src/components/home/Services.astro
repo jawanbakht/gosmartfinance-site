@@ -1,0 +1,132 @@
+---
+// Diensten: vier korte regels links, één groot visual rechts dat wisselt (desktop).
+// Op mobiel staat het visual direct onder elke dienst.
+import SampleBadge from "../SampleBadge.astro";
+import AnomalyVisual from "../visuals/AnomalyVisual.astro";
+import VarianceVisual from "../visuals/VarianceVisual.astro";
+import DashboardVisual from "../visuals/DashboardVisual.astro";
+import ReconVisual from "../visuals/ReconVisual.astro";
+
+const services = [
+  {
+    id: "ai",
+    title: "AI-tools voor finance managers",
+    text: "Analyses die je elke maand opnieuw bouwt, draaien vanzelf. De tool markeert afwijkingen en zet ze klaar voor jouw beoordeling.",
+    caption: "Afwijkingen in inkoopkosten per week",
+    Visual: AnomalyVisual,
+  },
+  {
+    id: "bc",
+    title: "Business controlling",
+    text: "Marges, kostenstructuur en forecast in één model, zonder Excel-bestanden die aan elkaar hangen. De variantieanalyse per kostenplaats staat klaar zodra de periode dicht is.",
+    caption: "Afwijking t.o.v. budget per kostenplaats",
+    Visual: VarianceVisual,
+  },
+  {
+    id: "dash",
+    title: "Management dashboards",
+    text: "De directie ziet omzet, marge, werkkapitaal en cashflow zonder te wachten op de maandrapportage. Eén versie van de cijfers voor iedereen.",
+    caption: "Kerncijfers voor de directie",
+    Visual: DashboardVisual,
+  },
+  {
+    id: "recon",
+    title: "Afsluiting en reconciliatie",
+    text: "De tool zet bank, subadministratie en grootboek naast elkaar en toont alleen wat niet aansluit. Jij beoordeelt, de tool doet het zoekwerk.",
+    caption: "Bank tegen grootboek, september",
+    Visual: ReconVisual,
+  },
+];
+---
+<section class="py-section bg-mist" aria-labelledby="svc-title" data-reveal>
+  <div class="wrap">
+    <div class="grid gap-5 max-w-[720px] mb-12">
+      <hr class="border-0 border-t border-ink" />
+      <span class="eyebrow text-ink-2">Diensten</span>
+      <h2 id="svc-title" class="text-h2">Vier stukken handwerk die verdwijnen.</h2>
+      <p class="text-ink-2">Elke module neemt een concreet stuk werk over. Jij houdt de controle over de uitkomst.</p>
+    </div>
+
+    <div class="grid gap-10 md:grid-cols-[5fr_7fr] items-start">
+      <div class="grid gap-0" role="tablist" aria-label="Diensten" aria-orientation="vertical" data-svc-tabs>
+        {services.map((s, i) => (
+          <div class="border-t border-line last:border-b">
+            <button
+              type="button"
+              role="tab"
+              id={`tab-${s.id}`}
+              aria-controls={`panel-${s.id}`}
+              aria-selected={i === 0 ? "true" : "false"}
+              tabindex={i === 0 ? 0 : -1}
+              class="group w-full text-left py-6 cursor-pointer grid gap-2 md:pl-5 md:border-l-2 md:border-transparent md:aria-selected:border-accent-on-light transition-colors"
+            >
+              <span class="text-h3 text-[22px] font-semibold tracking-[-0.02em] text-ink-2 group-aria-selected:text-ink group-hover:text-ink transition-colors">{s.title}</span>
+              <span class="text-ink-2 text-[16px] leading-relaxed">{s.text}</span>
+            </button>
+            <figure class="md:hidden grid gap-3 pb-8 min-w-0">
+              <div class="rounded-[var(--radius-card)] border border-line bg-white p-4 min-w-0"><s.Visual /></div>
+              <figcaption class="text-sm text-ink-2">{s.caption}</figcaption>
+            </figure>
+          </div>
+        ))}
+        <a href="/diensten" class="mt-8 justify-self-start font-semibold text-navy-950 border-b border-line pb-0.5 hover:border-accent-on-light transition-colors">Alle diensten uitgewerkt</a>
+      </div>
+
+      <div class="hidden md:block md:sticky md:top-28 min-w-0">
+        {services.map((s, i) => (
+          <figure
+            role="tabpanel"
+            id={`panel-${s.id}`}
+            aria-labelledby={`tab-${s.id}`}
+            hidden={i !== 0}
+            class="svc-panel grid gap-5 rounded-[var(--radius-card)] border border-line bg-white p-[clamp(16px,2.4vw,28px)] min-w-0"
+          >
+            <figcaption class="flex flex-wrap justify-between gap-3 items-baseline">
+              <span class="font-semibold">{s.caption}</span>
+              <SampleBadge />
+            </figcaption>
+            <s.Visual />
+          </figure>
+        ))}
+      </div>
+    </div>
+    <p class="md:hidden mt-2"><SampleBadge /></p>
+  </div>
+</section>
+
+<script>
+  const list = document.querySelector<HTMLElement>("[data-svc-tabs]");
+  if (list) {
+    const tabs = Array.from(list.querySelectorAll<HTMLButtonElement>("[role=tab]"));
+    const select = (tab: HTMLButtonElement, focus = false) => {
+      tabs.forEach((t) => {
+        const on = t === tab;
+        t.setAttribute("aria-selected", String(on));
+        t.tabIndex = on ? 0 : -1;
+        const panel = document.getElementById(t.getAttribute("aria-controls")!);
+        if (panel) {
+          panel.hidden = !on;
+          if (on) panel.classList.add("svc-in");
+        }
+      });
+      if (focus) tab.focus();
+    };
+    tabs.forEach((t, i) => {
+      t.addEventListener("click", () => select(t));
+      t.addEventListener("keydown", (e) => {
+        const k = e.key;
+        let n = -1;
+        if (k === "ArrowDown" || k === "ArrowRight") n = (i + 1) % tabs.length;
+        if (k === "ArrowUp" || k === "ArrowLeft") n = (i - 1 + tabs.length) % tabs.length;
+        if (k === "Home") n = 0;
+        if (k === "End") n = tabs.length - 1;
+        if (n >= 0) { e.preventDefault(); select(tabs[n], true); }
+      });
+    });
+  }
+</script>
+
+<style>
+  .svc-panel:global(.svc-in) { animation: svc-fade .3s var(--ease-calm); }
+  @keyframes svc-fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+</style>

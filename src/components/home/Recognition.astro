@@ -1,0 +1,59 @@
+---
+// Sectie "Herkenning": de afsluitkalender laat zien waar de dagen naartoe gaan.
+const DAYS = 8;
+const rows = [
+  { label: "Bank aansluiten", from: 1, to: 2, kind: "hand" },
+  { label: "Subadministraties aansluiten", from: 2, to: 4, kind: "hand" },
+  { label: "Tussenrekeningen uitzoeken", from: 3, to: 6, kind: "hand" },
+  { label: "Excel-rapportage bijwerken", from: 5, to: 7, kind: "hand" },
+  { label: "Analyse en toelichting", from: 7, to: 8, kind: "analysis" },
+];
+const W = 900, LABEL = 230, R = 8, T = 34, ROW = 46, H = T + rows.length * ROW + 8;
+const col = (W - LABEL - R) / DAYS;
+const x = (d: number) => LABEL + (d - 1) * col;
+---
+<section class="py-section" aria-labelledby="recog-title" data-reveal>
+  <div class="wrap grid gap-12 md:grid-cols-[4fr_8fr] items-start">
+    <div class="grid gap-5">
+      <hr class="border-0 border-t border-ink" />
+      <span class="eyebrow text-ink-2">Herkenbaar</span>
+      <h2 id="recog-title" class="text-h2">Dag 6 van de afsluiting.</h2>
+      <div class="grid gap-4 text-ink-2">
+        <p>De afsluiting duurt dagen, en het meeste werk is zoeken en aansluiten. Tussenrekeningen lopen op, omdat niemand tijd heeft om ze uit te zoeken.</p>
+        <p>De rapportage hangt aan Excel-bestanden die naar elkaar verwijzen. De directie krijgt de cijfers als de maand al lang voorbij is.</p>
+        <p class="text-ink font-medium">Dat ligt niet aan je team. Het is handwerk dat een tool kan overnemen.</p>
+      </div>
+    </div>
+
+    <figure class="grid gap-4 min-w-0 rounded-[var(--radius-card)] border border-line bg-white p-[clamp(16px,2.4vw,28px)]">
+      <figcaption class="flex flex-wrap justify-between gap-2 items-baseline">
+        <span class="font-semibold">Afsluitkalender</span>
+        <span class="text-sm text-ink-2">Illustratief voorbeeld · werkdagen na maandeinde</span>
+      </figcaption>
+      <div class="overflow-x-auto">
+        <svg class="w-full min-w-[560px] h-auto block" viewBox={`0 0 ${W} ${H}`} role="img" aria-label="Afsluitkalender: handmatig aansluiten en uitzoeken loopt van werkdag 1 tot 7, analyse en toelichting krijgen alleen dag 7 en 8.">
+          {Array.from({ length: DAYS }, (_, i) => (
+            <>
+              <line x1={x(i + 1)} x2={x(i + 1)} y1={T - 6} y2={H - 8} style="stroke:var(--color-line)" stroke-width="1" />
+              <text x={x(i + 1) + col / 2} y={18} text-anchor="middle" class="text-[13px] num" style="fill:var(--color-ink-2)">{`dag ${i + 1}`}</text>
+            </>
+          ))}
+          {rows.map((r, i) => {
+            const yy = T + i * ROW;
+            return (
+              <>
+                <text x={0} y={yy + ROW / 2 + 5} class="text-[14px]" style="fill:var(--color-ink)">{r.label}</text>
+                <rect x={x(r.from) + 3} y={yy + 10} width={(r.to - r.from + 1) * col - 6} height={ROW - 20} rx="3"
+                  style={r.kind === "analysis" ? "fill:var(--color-accent-on-light)" : "fill:var(--color-d3)"} />
+              </>
+            );
+          })}
+        </svg>
+      </div>
+      <ul class="flex flex-wrap gap-5 text-[13px] text-ink-2" aria-hidden="true">
+        <li class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-sm bg-d3"></span>Handwerk: zoeken, aansluiten, kopiëren</li>
+        <li class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-sm bg-accent-on-light"></span>Waar je voor bent aangenomen: analyse</li>
+      </ul>
+    </figure>
+  </div>
+</section>

@@ -1,0 +1,27 @@
+---
+// Business controlling: afwijking t.o.v. budget per kostenplaats (k€, voorbeelddata).
+const rows = [
+  { label: "Productie", v: -18 },
+  { label: "Inkoop", v: 9 },
+  { label: "Verkoop", v: -6 },
+  { label: "Logistiek", v: 4 },
+  { label: "Overhead", v: -2 },
+];
+const W = 600, LABEL = 110, VAL = 60, ROW = 40, T = 10, H = T + rows.length * ROW + 10;
+const max = 20, mid = LABEL + (W - LABEL - VAL) / 2, half = (W - LABEL - VAL) / 2;
+---
+<svg viewBox={`0 0 ${W} ${H}`} class="w-full h-auto block" role="img" aria-label="Afwijking ten opzichte van budget per kostenplaats: productie min 18k, inkoop plus 9k, verkoop min 6k, logistiek plus 4k, overhead min 2k. Voorbeelddata.">
+  <line x1={mid} x2={mid} y1={T - 4} y2={H - 4} style="stroke:var(--color-ink-2)" />
+  {rows.map((r, i) => {
+    const yy = T + i * ROW;
+    const w = (Math.abs(r.v) / max) * half;
+    const pos = r.v >= 0;
+    return (
+      <>
+        <text x={0} y={yy + ROW / 2 + 5} class="text-[14px]" style="fill:var(--color-ink)">{r.label}</text>
+        <rect x={pos ? mid : mid - w} y={yy + 9} width={w} height={ROW - 18} rx="2" style={pos ? "fill:var(--color-pos)" : "fill:var(--color-neg)"} />
+        <text x={W} y={yy + ROW / 2 + 5} text-anchor="end" class="text-[13px] font-semibold num" style={pos ? "fill:var(--color-pos)" : "fill:var(--color-neg)"}>{pos ? "▲ +" : "▼ −"}{Math.abs(r.v)}k</text>
+      </>
+    );
+  })}
+</svg>

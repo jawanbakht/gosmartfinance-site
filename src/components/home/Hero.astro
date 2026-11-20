@@ -1,0 +1,125 @@
+---
+import Button from "../Button.astro";
+import KpiTile from "../KpiTile.astro";
+import SampleBadge from "../SampleBadge.astro";
+import { heroLineSvg, SAMPLE } from "../../lib/charts";
+const svg = heroLineSvg(SAMPLE.cash, 0, 3);
+---
+<section class="bg-navy-950 text-white pt-[clamp(56px,8vw,112px)] pb-[clamp(32px,5vw,56px)]" aria-labelledby="hero-title">
+  <div class="wrap">
+    <div class="grid gap-12 md:grid-cols-[5fr_7fr] items-center">
+      <div class="grid gap-6">
+        <span class="eyebrow text-ink-dark-2">Time is Gold</span>
+        <h1 id="hero-title" class="text-display">Minder handwerk in de afsluiting. Meer tijd voor analyse.</h1>
+        <p class="text-ink-dark-2 max-w-[52ch]">Go Smart finance bouwt AI-tools en dashboards voor finance-teams. Gemaakt door een financial die ruim twintig jaar zelf maandafsluitingen draaide.</p>
+        <div class="flex flex-wrap gap-x-6 gap-y-4 items-center pt-2">
+          <Button href="/contact" variant="accent" arrow>Plan een gratis gesprek</Button>
+          <a href="/demo" class="font-semibold text-white border-b border-line-dark pb-0.5 hover:border-accent transition-colors">Bekijk het demo-dashboard</a>
+        </div>
+      </div>
+
+      <div class="grid gap-5 min-w-0 rounded-[var(--radius-card)] border border-line-dark bg-navy-900 p-[clamp(16px,2.4vw,28px)]" role="group" aria-label="Voorbeelddashboard: kaspositie en kerncijfers van een fictief bedrijf">
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+          <KpiTile onDark label="Kaspositie" value="€ 590k" delta="▲ 4,3% t.o.v. vorige maand" trend="pos" />
+          <KpiTile onDark label="DSO" value="47 dagen" delta="▼ 3 dagen" trend="pos" />
+          <div class="col-span-2 sm:col-span-1 grid">
+            <KpiTile onDark label="Open tussenrekeningen" value="12" delta="▲ 2 posten" trend="neg" />
+          </div>
+        </div>
+        <div>
+          <ul class="flex flex-wrap gap-4 text-[13px] text-ink-dark-2 mb-2" aria-hidden="true">
+            <li class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-sm bg-dd1"></span>Kaspositie (k€)</li>
+            <li class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-sm bg-accent"></span>Prognose</li>
+          </ul>
+          <svg id="hero-chart" class="chart w-full h-auto block overflow-visible" viewBox="0 0 640 240" role="img" aria-label="Lijngrafiek kaspositie over twaalf maanden met prognose voor de laatste drie, voorbeelddata" set:html={svg}></svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex items-center justify-between gap-4 mt-[clamp(32px,5vw,56px)] text-sm text-ink-dark-2">
+      <SampleBadge onDark />
+      <button id="hero-pause" type="button" aria-pressed="false" aria-label="Animatie pauzeren" class="grid place-items-center w-11 h-11 rounded-full border border-ink-dark-2 text-white hover:bg-navy-700 cursor-pointer flex-none">
+        <svg id="hero-pause-icon" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 1v12M11 1v12" stroke="currentColor" stroke-width="2.2" /></svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { heroLineSvg, SAMPLE, fmt } from "../../lib/charts";
+
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const svg = document.getElementById("hero-chart");
+  const btn = document.getElementById("hero-pause") as HTMLButtonElement | null;
+  const icon = document.getElementById("hero-pause-icon");
+  const panel = svg?.closest("[role=group]");
+  const kpi = panel?.querySelector<HTMLElement>("[data-kpi-value]");
+
+  let data = [...SAMPLE.cash];
+  let start = 0;
+  const FORECAST = 3;
+  let paused = reduce;
+  let visible = true;
+
+  function setPaused(p: boolean) {
+    paused = p;
+    if (!btn || !icon) return;
+    btn.setAttribute("aria-pressed", String(p));
+    btn.setAttribute("aria-label", p ? "Animatie afspelen" : "Animatie pauzeren");
+    icon.innerHTML = p
+      ? '<path d="M3 1l9 6-9 6z" fill="currentColor"/>'
+      : '<path d="M3 1v12M11 1v12" stroke="currentColor" stroke-width="2.2"/>';
+  }
+  btn?.addEventListener("click", () => setPaused(!paused));
+  setPaused(paused);
+
+  // Eerste opbouw: lijn tekent zich, prognose en eindpunt komen erna.
+  if (svg && !reduce) {
+    const line = svg.querySelector<SVGPathElement>('[data-line="actual"]');
+    const others = svg.querySelectorAll<SVGElement>('[data-line="forecast"],[data-line="dot"]');
+    if (line) {
+      const len = line.getTotalLength();
+      line.style.strokeDasharray = String(len);
+      line.style.strokeDashoffset = String(len);
+      others.forEach((o) => (o.style.opacity = "0"));
+      requestAnimationFrame(() => {
+        line.style.transition = "stroke-dashoffset 1.5s cubic-bezier(.2,.7,.2,1)";
+        line.style.strokeDashoffset = "0";
+        others.forEach((o) => { o.style.transition = "opacity .6s 1.3s"; o.style.opacity = "1"; });
+      });
+    }
+    // KPI's tellen op
+    panel?.querySelectorAll<HTMLElement>("[data-kpi-value]").forEach((el) => {
+        const m = el.textContent?.match(/^(\D*)([\d.]+)(.*)$/);
+        if (!m) return;
+        const [, pre, numStr, suf] = m;
+        const end = Number(numStr.replace(/\./g, ""));
+        const t0 = performance.now();
+        const step = (t: number) => {
+          const p = Math.min(1, (t - t0) / 1200);
+          el.textContent = pre + fmt(Math.round(end * (1 - Math.pow(1 - p, 3)))) + suf;
+          if (p < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
+      });
+  }
+
+  // Rustig "live": elke 7 s één nieuw datapunt, alleen als zichtbaar en niet gepauzeerd.
+  if (svg && "IntersectionObserver" in window) {
+    new IntersectionObserver((e) => (visible = e[0].isIntersecting)).observe(svg);
+  }
+  if (svg && !reduce) {
+    setInterval(() => {
+      if (paused || !visible || document.hidden) return;
+      const last = data[data.length - 1];
+      data = data.slice(1).concat(Math.max(300, Math.round(last + (Math.random() * 60 - 24))));
+      start = (start + 1) % 12;
+      svg.innerHTML = heroLineSvg(data, start, FORECAST);
+      if (kpi) kpi.textContent = "€ " + fmt(data[data.length - FORECAST - 1]) + "k";
+    }, 7000);
+  }
+</script>
+
+<style>
+  .chart :global(text) { font-family: var(--font-sans); font-size: 12px; font-variant-numeric: tabular-nums; }
+</style>

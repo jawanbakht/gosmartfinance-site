@@ -1,0 +1,39 @@
+---
+// Afsluiting en reconciliatie: bank tegen grootboek, alleen verschillen vallen op (voorbeelddata).
+const rows = [
+  { date: "02-09", desc: "Debiteur 10482", bank: "4.250,00", gb: "4.250,00", ok: true },
+  { date: "03-09", desc: "Huur september", bank: "−8.900,00", gb: "−8.900,00", ok: true },
+  { date: "05-09", desc: "Crediteur 20117", bank: "−1.250,00", gb: "—", ok: false, note: "Niet geboekt" },
+  { date: "09-09", desc: "Debiteur 10511", bank: "12.480,00", gb: "12.840,00", ok: false, note: "Verschil € 360" },
+  { date: "12-09", desc: "Bankkosten", bank: "−38,40", gb: "−38,40", ok: true },
+];
+---
+<div class="overflow-x-auto">
+  <table class="w-full min-w-[480px] text-[14px] num border-collapse">
+    <caption class="sr-only">Bankmutaties naast grootboek, voorbeelddata. Twee posten sluiten niet aan.</caption>
+    <thead>
+      <tr class="text-xs uppercase tracking-[.06em] text-ink-2">
+        <th scope="col" class="text-left font-semibold py-2 pr-2">Datum</th>
+        <th scope="col" class="text-left font-semibold py-2 pr-2">Omschrijving</th>
+        <th scope="col" class="text-right font-semibold py-2 pr-2">Bank</th>
+        <th scope="col" class="text-right font-semibold py-2 pr-2">Grootboek</th>
+        <th scope="col" class="text-left font-semibold py-2">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {rows.map((r) => (
+        <tr class={`border-t border-line ${r.ok ? "text-ink-2" : "bg-mist text-ink font-medium"}`}>
+          <td class="py-2.5 pr-2">{r.date}</td>
+          <td class="py-2.5 pr-2">{r.desc}</td>
+          <td class="py-2.5 pr-2 text-right">{r.bank}</td>
+          <td class="py-2.5 pr-2 text-right">{r.gb}</td>
+          <td class="py-2.5">
+            {r.ok
+              ? <span class="text-pos">✓ Aangesloten</span>
+              : <span class="text-neg font-semibold">● {r.note}</span>}
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>

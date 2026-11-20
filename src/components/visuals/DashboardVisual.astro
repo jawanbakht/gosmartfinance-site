@@ -1,0 +1,18 @@
+---
+// Management dashboards: vier KPI's met sparkline (voorbeelddata).
+import KpiTile from "../KpiTile.astro";
+import { sparkSvg } from "../../lib/charts";
+const tiles = [
+  { label: "Omzet YTD", value: "€ 9,8 mln", delta: "▲ 3,1% t.o.v. budget", trend: "pos", s: [6, 6.8, 7.4, 8.1, 8.6, 9.2, 9.8] },
+  { label: "Brutomarge", value: "38,2%", delta: "▲ 1,1 %-punt", trend: "pos", s: [36.1, 36.4, 37, 36.8, 37.5, 37.9, 38.2] },
+  { label: "Werkkapitaal", value: "€ 1,42 mln", delta: "▲ € 86k", trend: "neg", s: [1.21, 1.25, 1.28, 1.3, 1.33, 1.34, 1.42] },
+  { label: "Vrije cashflow", value: "€ 312k", delta: "▼ € 24k", trend: "neg", s: [340, 352, 331, 345, 336, 330, 312] },
+] as const;
+---
+<div class="grid grid-cols-2 gap-3" role="group" aria-label="Vier KPI-tegels met trend, voorbeelddata">
+  {tiles.map((t) => (
+    <KpiTile label={t.label} value={t.value} delta={t.delta} trend={t.trend}>
+      <svg viewBox="0 0 120 28" class="w-full h-7 block" aria-hidden="true" set:html={sparkSvg([...t.s])}></svg>
+    </KpiTile>
+  ))}
+</div>
