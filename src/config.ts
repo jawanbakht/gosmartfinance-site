@@ -4,7 +4,7 @@ export const SITE = {
   slogan: "Time is Gold",
   email: "info@gosmartfinance.com",
   city: "Zoetermeer",
-  indexable: false,
+  indexable: true,
   // Accent: "gold" of "teal". Keuze nog open (zie stijlgids).
   accent: "gold" as "gold" | "teal",
 };
