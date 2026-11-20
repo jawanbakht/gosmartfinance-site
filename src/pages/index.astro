@@ -1,0 +1,43 @@
+---
+// Tijdelijke homepage voor fase 0. De echte secties volgen in fase 1, met de goedgekeurde teksten.
+import Base from "../layouts/Base.astro";
+import Button from "../components/Button.astro";
+import KpiTile from "../components/KpiTile.astro";
+import SampleBadge from "../components/SampleBadge.astro";
+---
+<Base
+  title="AI-tools en dashboards voor finance | Go Smart finance"
+  description="Minder handwerk in maandafsluiting, reconciliatie en rapportage. AI-tools en dashboards voor controllers en CFO's, gebouwd door een financial."
+>
+  <section class="bg-navy-950 text-white py-[clamp(56px,8vw,112px)]">
+    <div class="wrap grid gap-12 md:grid-cols-[5fr_7fr] items-center">
+      <div class="grid gap-6">
+        <span class="eyebrow text-ink-dark-2">Time is Gold</span>
+        <h1 class="text-display">Minder handwerk in de afsluiting. Meer tijd voor analyse.</h1>
+        <p class="text-ink-dark-2 max-w-[68ch]">Preview fase 0: design-systeem en componenten. De definitieve teksten volgen na goedkeuring van het tekstdocument.</p>
+        <div class="flex flex-wrap gap-3 items-center">
+          <Button href="/contact" variant="accent" arrow>Plan een gratis gesprek</Button>
+          <Button href="/stijlgids/" variant="secondary" onDark>Bekijk de stijlgids</Button>
+        </div>
+      </div>
+      <div class="grid gap-5 rounded-[var(--radius-card)] border border-line-dark bg-navy-900 p-[clamp(16px,2.4vw,28px)]" role="group" aria-label="Voorbeelddashboard van een fictief bedrijf">
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+          <KpiTile onDark label="Kaspositie" value="€ 590k" delta="▲ 4,3% t.o.v. vorige maand" trend="pos" />
+          <KpiTile onDark label="DSO" value="47 dagen" delta="▼ 3 dagen" trend="pos" />
+          <KpiTile onDark label="Open tussenrekeningen" value="12" delta="▲ 2 posten" trend="neg" />
+        </div>
+        <SampleBadge onDark />
+      </div>
+    </div>
+  </section>
+
+  <section class="py-section">
+    <div class="wrap grid gap-6 max-w-[800px]">
+      <hr class="border-0 border-t border-ink" />
+      <span class="eyebrow text-ink-2">Status</span>
+      <h2 class="text-h2">Fase 0 staat: tokens, typografie en componenten</h2>
+      <p class="text-ink-2">Volgende stap: de homepage sectie voor sectie, met de teksten uit het tekstdocument.</p>
+      <div><Button href="/stijlgids/" variant="primary" arrow>Open de stijlgids</Button></div>
+    </div>
+  </section>
+</Base>

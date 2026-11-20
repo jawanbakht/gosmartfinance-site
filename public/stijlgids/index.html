@@ -1,0 +1,590 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Go Smart finance stijlgids</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: Glenstone-kader (rust, ruimte, één ding per sectie) met dashboards als het "kunstwerk".
+   Bewust één look: navy + wit, geen dark mode — zoals de echte site. */
+:root{
+  color-scheme: light;
+  --navy-950:#0B1F3A; --navy-900:#13294B; --navy-700:#1B3A66;
+  --white:#FFFFFF; --mist:#F4F6F9; --line:#D9E2EC; --line-dark:#24406A;
+  --ink:#0B1F3A; --ink-2:#475467; --ink-dark-2:#B9C6D8;
+  --d1:#1F4E8C; --d2:#2F6FB5; --d3:#4A88C7;
+  --dd1:#9CC3E8; --dd2:#6E8DB8; --dd3:#4A88C7;
+  --pos:#067647; --neg:#B42318; --pos-dark:#47CD89; --neg-dark:#F97066;
+  --accent:#E3B341; --accent-on-light:#9C7A16; --accent-ink:#0B1F3A;
+  --font:"Inter", "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+  --fs-display:clamp(36px, 5.2vw, 56px); --fs-h2:clamp(28px, 3.6vw, 40px); --fs-h3:clamp(22px, 2.4vw, 28px);
+  --fs-body:clamp(16px, 1.25vw, 18px); --fs-small:14px; --fs-label:12px;
+  --space-section:clamp(96px, 11vw, 160px);
+  --radius:6px;
+  --ease:cubic-bezier(.2,.7,.2,1);
+}
+:root[data-accent="teal"]{ --accent:#2BB3A3; --accent-on-light:#0E7C72; }
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--white);color:var(--ink);font-family:var(--font);font-size:var(--fs-body);line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1200px;margin:0 auto;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
+h1,h2,h3{font-weight:600;letter-spacing:-0.02em;line-height:1.15;text-wrap:balance;margin:0}
+h1{font-size:var(--fs-display)} h2{font-size:var(--fs-h2)} h3{font-size:var(--fs-h3)}
+p{margin:0;max-width:68ch}
+.num{font-variant-numeric:tabular-nums}
+.eyebrow{font-size:var(--fs-label);letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--ink-2)}
+.dark .eyebrow{color:var(--ink-dark-2)}
+.rule{border:0;border-top:1px solid var(--ink);margin:0 0 20px}
+.dark .rule{border-top-color:var(--ink-dark-2)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:2px}
+
+/* Bands */
+.band{padding-block:var(--space-section)}
+.dark{background:var(--navy-950);color:var(--white)}
+.mist{background:var(--mist)}
+
+/* Nav */
+.nav{position:sticky;top:env(safe-area-inset-top, 0px);z-index:20;background:var(--navy-950);color:var(--white);border-bottom:1px solid var(--line-dark)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top, 0px);z-index:30;background:var(--navy-950)}
+.nav .wrap{display:flex;align-items:center;gap:32px;padding-block:16px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:600;font-size:18px;color:var(--white);text-decoration:none;letter-spacing:-0.01em;white-space:nowrap}
+.logo-mark{width:26px;height:26px;flex:none}
+.nav-links{display:flex;gap:28px;margin-left:auto;list-style:none;padding:0;margin-block:0}
+.nav-links a{color:var(--ink-dark-2);text-decoration:none;font-size:15px;font-weight:500;padding-block:6px;border-bottom:1px solid transparent;transition:color .15s,border-color .15s}
+.nav-links a:hover{color:var(--white);border-bottom-color:var(--accent)}
+.nav-toggle{display:none;margin-left:auto;background:none;border:1px solid var(--line-dark);color:var(--white);border-radius:999px;width:44px;height:44px;cursor:pointer}
+@media (max-width:860px){.nav-links{display:none}.nav-toggle{display:inline-grid;place-items:center}.nav .btn{display:none}}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:10px;font:600 15px/1 var(--font);padding:14px 22px;border-radius:999px;text-decoration:none;border:1px solid transparent;cursor:pointer;transition:transform .15s var(--ease),background-color .15s,box-shadow .15s,color .15s;white-space:nowrap}
+.btn .arrow{transition:transform .15s var(--ease)}
+.btn:hover .arrow{transform:translateX(3px)}
+.btn-accent{background:var(--accent);color:var(--accent-ink)}
+.btn-accent:hover{box-shadow:0 6px 18px rgba(0,0,0,.25);transform:translateY(-1px)}
+.btn-primary{background:var(--navy-950);color:var(--white)}
+.btn-primary:hover{background:var(--navy-700);transform:translateY(-1px)}
+.btn-secondary{background:transparent;color:var(--navy-950);border-color:var(--navy-950)}
+.btn-secondary:hover{background:var(--navy-950);color:var(--white)}
+.dark .btn-secondary{color:var(--white);border-color:var(--ink-dark-2)}
+.dark .btn-secondary:hover{background:var(--white);color:var(--navy-950)}
+.link{color:var(--navy-950);font-weight:600;text-decoration:none;border-bottom:1px solid var(--line);padding-bottom:2px;transition:border-color .15s}
+.link:hover{border-bottom-color:var(--accent-on-light)}
+.dark .link{color:var(--white);border-bottom-color:var(--line-dark)}
+.dark .link:hover{border-bottom-color:var(--accent)}
+
+/* Hero */
+.hero{position:relative;overflow:hidden;padding-block:clamp(56px,8vw,112px) clamp(40px,6vw,72px)}
+.hero-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(32px,5vw,72px);align-items:center}
+.hero-copy{display:grid;gap:24px}
+.hero-copy p{color:var(--ink-dark-2)}
+.hero-status{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:clamp(40px,6vw,72px);font-size:var(--fs-small);color:var(--ink-dark-2)}
+.badge{display:inline-flex;align-items:center;gap:8px;font-size:var(--fs-label);letter-spacing:.06em;text-transform:uppercase;font-weight:600;padding:5px 10px;border-radius:999px;border:1px solid currentColor}
+.badge::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.dark .badge{color:var(--ink-dark-2)}
+.pause{display:inline-grid;place-items:center;width:44px;height:44px;border-radius:50%;border:1px solid var(--ink-dark-2);background:transparent;color:var(--white);cursor:pointer;flex:none}
+.pause:hover{background:var(--navy-700)}
+@media (max-width:860px){.hero-grid{grid-template-columns:minmax(0,1fr)}}
+
+/* Dashboard panel */
+.panel{background:var(--navy-900);border:1px solid var(--line-dark);border-radius:var(--radius);padding:clamp(16px,2.4vw,28px);display:grid;gap:20px;min-width:0}
+.kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media (max-width:520px){.kpis{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.kpis .kpi:last-child{grid-column:1/-1}}
+
+/* KPI tile */
+.kpi{border-radius:var(--radius);padding:16px;display:grid;gap:6px;align-content:start;transition:transform .15s var(--ease),box-shadow .15s}
+.kpi:hover{transform:translateY(-2px)}
+.kpi-label{font-size:13px;font-weight:500}
+.kpi-value{font-size:clamp(22px,2.6vw,30px);font-weight:600;letter-spacing:-0.02em;font-variant-numeric:tabular-nums;line-height:1.1}
+.kpi-delta{font-size:13px;font-weight:600;font-variant-numeric:tabular-nums}
+.kpi.on-dark{background:var(--navy-950);border:1px solid var(--line-dark)}
+.kpi.on-dark .kpi-label{color:var(--ink-dark-2)}
+.kpi.on-dark .pos{color:var(--pos-dark)} .kpi.on-dark .neg{color:var(--neg-dark)}
+.kpi.on-dark:hover{box-shadow:0 8px 20px rgba(0,0,0,.35)}
+.kpi.on-light{background:var(--white);border:1px solid var(--line)}
+.kpi.on-light .kpi-label{color:var(--ink-2)}
+.kpi.on-light .pos{color:var(--pos)} .kpi.on-light .neg{color:var(--neg)}
+.kpi.on-light:hover{box-shadow:0 8px 20px rgba(11,31,58,.08)}
+.spark{width:100%;height:28px;display:block}
+
+/* Chart card */
+.card{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:clamp(16px,2.4vw,28px);display:grid;gap:16px;min-width:0}
+.card-head{display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-between;align-items:baseline}
+.card-head h3{font-size:20px}
+.meta{font-size:var(--fs-small);color:var(--ink-2)}
+.legend{display:flex;flex-wrap:wrap;gap:16px;font-size:13px;color:var(--ink-2);list-style:none;padding:0;margin:0}
+.legend li{display:flex;align-items:center;gap:6px}
+.sw{width:12px;height:12px;border-radius:2px;display:inline-block}
+.dark .legend{color:var(--ink-dark-2)}
+.chart{width:100%;height:auto;display:block;overflow:visible}
+.chart text{font-family:var(--font);font-size:12px;font-variant-numeric:tabular-nums}
+
+/* Slicers */
+.slicers{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font:500 14px/1 var(--font);padding:10px 14px;border-radius:999px;border:1px solid var(--line);background:var(--white);color:var(--ink);cursor:pointer;transition:background-color .15s,border-color .15s,color .15s}
+.chip:hover{border-color:var(--navy-950)}
+.chip[aria-pressed="true"]{background:var(--navy-950);border-color:var(--navy-950);color:var(--white)}
+
+/* Variance table */
+.tbl-wrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:15px;min-width:520px}
+th,td{padding:12px 10px;text-align:right;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums}
+th:first-child,td:first-child{text-align:left}
+thead th{font-size:var(--fs-label);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);font-weight:600}
+td.pos{color:var(--pos);font-weight:600} td.neg{color:var(--neg);font-weight:600}
+tbody tr:hover{background:var(--mist)}
+
+/* Style guide scaffolding */
+.sg-head{display:grid;gap:16px;margin-bottom:48px}
+.sg-head p{color:var(--ink-2)}
+.dark .sg-head p{color:var(--ink-dark-2)}
+.swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:16px}
+.swatch{border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:var(--white)}
+.swatch .chipc{height:84px}
+.swatch .info{padding:12px;display:grid;gap:2px;font-size:13px}
+.swatch .info b{font-size:14px}
+.swatch code{font-size:13px;font-family:ui-monospace,"Cascadia Mono",Consolas,monospace;color:var(--ink-2)}
+.group-title{margin:48px 0 16px;font-size:16px;font-weight:600}
+.accent-switch{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:8px}
+.contrast td,.contrast th{text-align:left}
+.contrast td:nth-child(3){text-align:right}
+.pass{color:var(--pos);font-weight:600} .fail{color:var(--neg);font-weight:600}
+.pair{display:inline-flex;align-items:center;gap:8px}
+.pair i{width:28px;height:20px;border-radius:3px;display:inline-grid;place-items:center;font-style:normal;font-size:11px;font-weight:700;border:1px solid var(--line)}
+.type-row{display:grid;grid-template-columns:160px minmax(0,1fr);gap:24px;align-items:baseline;padding-block:20px;border-bottom:1px solid var(--line)}
+.type-row .meta{font-size:13px}
+@media (max-width:640px){.type-row{grid-template-columns:minmax(0,1fr);gap:6px}}
+.grid-demo{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:24px;height:120px}
+.grid-demo span{background:rgba(31,78,140,.08);border-left:1px solid rgba(31,78,140,.25);border-right:1px solid rgba(31,78,140,.25)}
+@media (max-width:640px){.grid-demo{grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}.grid-demo span:nth-child(n+5){display:none}}
+.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+.three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+@media (max-width:860px){.two,.three{grid-template-columns:minmax(0,1fr)}}
+.stack{display:grid;gap:16px;align-content:start}
+.row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.demo-box{border-radius:var(--radius);padding:28px;display:grid;gap:20px}
+.motion-list{display:grid;gap:0;list-style:none;padding:0;margin:0}
+.motion-list li{display:grid;grid-template-columns:200px minmax(0,1fr);gap:24px;padding-block:18px;border-bottom:1px solid var(--line)}
+.motion-list li b{font-weight:600}
+@media (max-width:640px){.motion-list li{grid-template-columns:minmax(0,1fr);gap:4px}}
+.open-q{border-left:3px solid var(--accent-on-light);padding:4px 0 4px 16px;color:var(--ink-2);font-size:15px}
+footer{padding-block:48px;font-size:var(--fs-small)}
+footer .wrap{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;color:var(--ink-dark-2)}
+
+/* Scroll reveal: alleen voor elementen die bij laden onder de vouw staan */
+.reveal-pre{opacity:0;transform:translateY(16px)}
+.reveal-in{opacity:1;transform:none;transition:opacity .6s var(--ease),transform .6s var(--ease)}
+@media (prefers-reduced-motion:reduce){
+  *{transition:none!important;animation:none!important;scroll-behavior:auto!important}
+  .reveal-pre{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="Go Smart finance, naar boven">
+      <svg class="logo-mark" viewBox="0 0 26 26" aria-hidden="true"><rect x="1" y="14" width="5" height="11" rx="1" fill="#6E8DB8"/><rect x="8.5" y="9" width="5" height="16" rx="1" fill="#9CC3E8"/><rect x="16" y="3" width="5" height="22" rx="1" fill="var(--accent)"/></svg>
+      Go Smart finance
+    </a>
+    <ul class="nav-links">
+      <li><a href="#palet">Diensten</a></li>
+      <li><a href="#componenten">Demo</a></li>
+      <li><a href="#typografie">Over</a></li>
+      <li><a href="#motion">Contact</a></li>
+    </ul>
+    <a class="btn btn-accent" href="#top">Plan een gratis gesprek</a>
+    <button class="nav-toggle" type="button" aria-label="Menu openen"><svg width="18" height="12" viewBox="0 0 18 12" aria-hidden="true"><path d="M0 1h18M0 6h18M0 11h18" stroke="currentColor" stroke-width="1.6"/></svg></button>
+  </div>
+</header>
+
+<main id="top">
+  <!-- HERO -->
+  <section class="dark hero" aria-labelledby="hero-title">
+    <div class="wrap">
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <span class="eyebrow">Time is Gold</span>
+          <h1 id="hero-title">Minder handwerk in de afsluiting. Meer tijd voor analyse.</h1>
+          <p>Voorbeeldtekst voor de stijlgids. De definitieve hero-tekst komt uit het tekstdocument.</p>
+          <div class="row">
+            <a class="btn btn-accent" href="#palet">Plan een gratis gesprek <span class="arrow" aria-hidden="true">→</span></a>
+            <a class="link" href="#componenten">Bekijk het demo-dashboard</a>
+          </div>
+        </div>
+        <div class="panel" role="group" aria-label="Voorbeelddashboard: kaspositie en kerncijfers van een fictief bedrijf">
+          <div class="kpis">
+            <div class="kpi on-dark"><span class="kpi-label">Kaspositie</span><span class="kpi-value" data-count="590" data-prefix="€ " data-suffix="k">€ 590k</span><span class="kpi-delta pos">▲ 4,3% t.o.v. vorige maand</span></div>
+            <div class="kpi on-dark"><span class="kpi-label">DSO</span><span class="kpi-value" data-count="47" data-suffix=" dagen">47 dagen</span><span class="kpi-delta pos">▼ 3 dagen</span></div>
+            <div class="kpi on-dark"><span class="kpi-label">Open tussenrekeningen</span><span class="kpi-value" data-count="12">12</span><span class="kpi-delta neg">▲ 2 posten</span></div>
+          </div>
+          <div>
+            <ul class="legend" aria-hidden="true">
+              <li><span class="sw" style="background:var(--dd1)"></span>Kaspositie (k€)</li>
+              <li><span class="sw" style="background:var(--accent)"></span>Prognose</li>
+            </ul>
+            <svg id="hero-chart" class="chart" viewBox="0 0 640 240" role="img" aria-label="Lijngrafiek kaspositie over twaalf maanden, voorbeelddata"></svg>
+          </div>
+        </div>
+      </div>
+      <div class="hero-status">
+        <span class="badge">Voorbeelddata · fictief bedrijf</span>
+        <button class="pause" id="pause" type="button" aria-pressed="false" aria-label="Animatie pauzeren">
+          <svg id="pause-icon" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 1v12M11 1v12" stroke="currentColor" stroke-width="2.2"/></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- PALET -->
+  <section class="band" id="palet" aria-labelledby="palet-title">
+    <div class="wrap">
+      <div class="sg-head">
+        <hr class="rule"><span class="eyebrow">01 · Kleur</span>
+        <h2 id="palet-title">Donkerblauw en wit, één accent</h2>
+        <p>Navy draagt de hero, navigatie, footer en donkere dashboard-secties. Wit draagt de rest. Het accent zit alleen op knoppen en highlights in grafieken. Schakel hieronder tussen de twee kandidaten; de hele pagina wisselt mee.</p>
+        <div class="accent-switch" role="group" aria-label="Accentkleur kiezen">
+          <span class="meta">Accent:</span>
+          <button class="chip" type="button" data-accent-btn="gold" aria-pressed="true">A · Goud</button>
+          <button class="chip" type="button" data-accent-btn="teal" aria-pressed="false">B · Teal</button>
+        </div>
+      </div>
+
+      <h3 class="group-title">Basis</h3>
+      <div class="swatches" id="sw-base"></div>
+      <h3 class="group-title">Datareeksen</h3>
+      <div class="swatches" id="sw-data"></div>
+      <h3 class="group-title">Accent en status</h3>
+      <div class="swatches" id="sw-accent"></div>
+
+      <h3 class="group-title">Contrastcontrole (WCAG 2.1 AA)</h3>
+      <p class="meta" style="margin-bottom:16px">Tekst: minimaal 4,5:1 (groot ≥ 24px: 3:1). Grafische elementen zoals lijnen en staven: minimaal 3:1. Berekend met de WCAG-luminantieformule.</p>
+      <div class="tbl-wrap"><table class="contrast" id="contrast"><thead><tr><th>Voorgrond op achtergrond</th><th>Gebruik</th><th>Ratio</th><th>Oordeel</th></tr></thead><tbody></tbody></table></div>
+    </div>
+  </section>
+
+  <!-- TYPOGRAFIE -->
+  <section class="band mist" id="typografie" aria-labelledby="type-title">
+    <div class="wrap">
+      <div class="sg-head">
+        <hr class="rule"><span class="eyebrow">02 · Typografie en grid</span>
+        <h2 id="type-title">Eén letter, grote koppen, veel lucht</h2>
+        <p>Inter in vier gewichten. In productie zelf gehost, zonder verkeer naar Google. Bedragen altijd met tabulaire cijfers, zodat kolommen uitlijnen.</p>
+      </div>
+      <div class="type-row"><span class="meta">Display · 56 / 36px<br>600 · −2%</span><span style="font-size:var(--fs-display);font-weight:600;letter-spacing:-0.02em;line-height:1.1">De afsluiting op dag 3</span></div>
+      <div class="type-row"><span class="meta">H2 · 40 / 28px</span><span style="font-size:var(--fs-h2);font-weight:600;letter-spacing:-0.02em;line-height:1.15">Reconciliatie zonder plakwerk</span></div>
+      <div class="type-row"><span class="meta">H3 · 28 / 22px</span><span style="font-size:var(--fs-h3);font-weight:600;letter-spacing:-0.02em">Variantieanalyse per kostenplaats</span></div>
+      <div class="type-row"><span class="meta">Tekst · 18 / 16px<br>regel 1,6 · max 68 tekens</span><p>De tool zet bankmutaties en grootboek naast elkaar en toont alleen wat niet aansluit. Jij beoordeelt, de tool doet het zoekwerk.</p></div>
+      <div class="type-row"><span class="meta">Cijfers · tabulair</span><span class="num" style="font-size:22px;font-weight:600">€ 1.284.500 &nbsp; € 96.020 &nbsp; −3,4%</span></div>
+      <div class="type-row"><span class="meta">Label · 12px<br>hoofdletters +8%</span><span class="eyebrow">Voorbeelddata · Q3</span></div>
+
+      <h3 class="group-title">Grid: 12 kolommen, max 1200px, gutter 24px (mobiel 4 kolommen, 16px)</h3>
+      <div class="grid-demo" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <p class="meta" style="margin-top:16px">Spacing in stappen van 8px. Tussen secties 160px op desktop, 96px op mobiel.</p>
+    </div>
+  </section>
+
+  <!-- COMPONENTEN -->
+  <section class="band" id="componenten" aria-labelledby="comp-title">
+    <div class="wrap">
+      <div class="sg-head">
+        <hr class="rule"><span class="eyebrow">03 · Componenten</span>
+        <h2 id="comp-title">De bouwstenen van elk dashboard</h2>
+        <p>KPI-tegel, grafiekkaart met slicers, variantietabel, knoppen en navigatie. Alle cijfers hieronder zijn voorbeelddata van een fictief bedrijf.</p>
+      </div>
+
+      <h3 class="group-title">KPI-tegels op wit</h3>
+      <div class="three">
+        <div class="kpi on-light"><span class="kpi-label">Brutomarge YTD</span><span class="kpi-value">38,2%</span><span class="kpi-delta pos">▲ 1,1 %-punt t.o.v. budget</span><svg class="spark" viewBox="0 0 120 28" aria-hidden="true" data-spark="34,35,35.5,36,35.8,36.9,37.4,38.2"></svg></div>
+        <div class="kpi on-light"><span class="kpi-label">Werkkapitaal</span><span class="kpi-value">€ 1,42 mln</span><span class="kpi-delta neg">▲ € 86k t.o.v. vorige maand</span><svg class="spark" viewBox="0 0 120 28" aria-hidden="true" data-spark="1.21,1.25,1.28,1.3,1.29,1.33,1.34,1.42"></svg></div>
+        <div class="kpi on-light"><span class="kpi-label">Doorlooptijd afsluiting</span><span class="kpi-value">4 werkdagen</span><span class="kpi-delta pos">▼ 2 dagen t.o.v. Q2</span><svg class="spark" viewBox="0 0 120 28" aria-hidden="true" data-spark="8,8,7,7,6,6,5,4"></svg></div>
+      </div>
+
+      <h3 class="group-title">Grafiekkaart met slicers</h3>
+      <div class="card">
+        <div class="card-head">
+          <h3>Omzet tegen budget</h3>
+          <span class="meta">Voorbeelddata · fictief bedrijf · bedragen in k€</span>
+        </div>
+        <div class="slicers" role="group" aria-label="Periode filteren">
+          <button class="chip" type="button" data-period="all" aria-pressed="true">Heel jaar</button>
+          <button class="chip" type="button" data-period="0" aria-pressed="false">Q1</button>
+          <button class="chip" type="button" data-period="1" aria-pressed="false">Q2</button>
+          <button class="chip" type="button" data-period="2" aria-pressed="false">Q3</button>
+          <button class="chip" type="button" data-period="3" aria-pressed="false">Q4</button>
+        </div>
+        <ul class="legend" aria-hidden="true">
+          <li><span class="sw" style="background:var(--d1)"></span>Realisatie</li>
+          <li><span class="sw" style="background:var(--d3)"></span>Budget</li>
+          <li><span class="sw" style="background:var(--accent-on-light)"></span>Grootste afwijking</li>
+        </ul>
+        <svg id="bar-chart" class="chart" viewBox="0 0 900 300" role="img" aria-label="Staafgrafiek omzet tegen budget per maand, voorbeelddata"></svg>
+        <p class="meta" id="bar-summary" aria-live="polite"></p>
+      </div>
+
+      <h3 class="group-title">Variantietabel</h3>
+      <div class="card">
+        <div class="card-head"><h3>Resultaat september tegen budget</h3><span class="meta">Voorbeelddata · k€</span></div>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th scope="col">Post</th><th scope="col">Realisatie</th><th scope="col">Budget</th><th scope="col">Verschil</th></tr></thead>
+            <tbody>
+              <tr><td>Omzet</td><td>1.248</td><td>1.200</td><td class="pos">▲ +48</td></tr>
+              <tr><td>Brutomarge</td><td>477</td><td>456</td><td class="pos">▲ +21</td></tr>
+              <tr><td>Personeelskosten</td><td>−262</td><td>−250</td><td class="neg">▼ −12</td></tr>
+              <tr><td>Huisvesting</td><td>−41</td><td>−42</td><td class="pos">▲ +1</td></tr>
+              <tr><td><b>EBITDA</b></td><td><b>174</b></td><td><b>164</b></td><td class="pos">▲ +10</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <h3 class="group-title">Knoppen en links</h3>
+      <div class="two">
+        <div class="demo-box" style="background:var(--white);border:1px solid var(--line)">
+          <span class="eyebrow">Op wit</span>
+          <div class="row"><a class="btn btn-primary" href="#top">Plan een gratis gesprek <span class="arrow" aria-hidden="true">→</span></a><a class="btn btn-secondary" href="#top">Bekijk de diensten</a></div>
+          <a class="link" href="#top">Lees het verhaal van de oprichter</a>
+        </div>
+        <div class="demo-box dark">
+          <span class="eyebrow">Op navy</span>
+          <div class="row"><a class="btn btn-accent" href="#top">Plan een gratis gesprek <span class="arrow" aria-hidden="true">→</span></a><a class="btn btn-secondary" href="#top">Bekijk de diensten</a></div>
+          <a class="link" href="#top">Probeer het demo-dashboard</a>
+        </div>
+      </div>
+      <p class="open-q" style="margin-top:24px">Regel: per scherm maximaal één primaire knop. Op wit is die navy, op navy is die in de accentkleur.</p>
+    </div>
+  </section>
+
+  <!-- MOTION -->
+  <section class="band mist" id="motion" aria-labelledby="motion-title">
+    <div class="wrap">
+      <div class="sg-head">
+        <hr class="rule"><span class="eyebrow">04 · Beweging</span>
+        <h2 id="motion-title">Traag, kalm en uit te zetten</h2>
+        <p>Beweging laat zien wat het product doet. Niets knippert of stuitert. Met "beperk beweging" in je besturingssysteem staat alles meteen in de eindstand.</p>
+      </div>
+      <ul class="motion-list">
+        <li><b>Hero-dashboard</b><span>Grafiek bouwt in 1,5 s op, KPI's tellen op. Daarna elke 7 s één nieuw datapunt. Pauzeknop rechtsonder.</span></li>
+        <li><b>Secties</b><span>Vervagen in met 16px verschuiving, 600 ms, één keer. Scroll deze pagina om het te zien.</span></li>
+        <li><b>Tegels en knoppen</b><span>Hover: 2px omhoog en een zachte schaduw in 150 ms. Duidelijke focusring bij toetsenbordgebruik.</span></li>
+        <li><b>Filters</b><span>Grafiek past zich in 300 ms aan op een gekozen periode.</span></li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<footer class="dark">
+  <div class="wrap">
+    <span>Go Smart finance · Zoetermeer · Stijlgids fase 0</span>
+    <span>Alle cijfers op deze pagina zijn voorbeelddata van een fictief bedrijf.</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  const NS = "http://www.w3.org/2000/svg";
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+  const el = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+  const fmt = n => n.toLocaleString("nl-NL");
+  const niceMax = v => { const p = Math.pow(10, Math.floor(Math.log10(v))); return Math.ceil(v / (p / 2)) * (p / 2); };
+
+  /* ---------- Accent switch ---------- */
+  function setAccent(a){
+    document.documentElement.setAttribute("data-accent", a);
+    document.querySelectorAll("[data-accent-btn]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.accentBtn === a)));
+    try { localStorage.setItem("gsf-accent", a); } catch(e) {}
+    renderSwatches(); renderContrast(); drawHero(false); drawBars(currentPeriod, false); drawSparks();
+  }
+  document.querySelectorAll("[data-accent-btn]").forEach(b => b.addEventListener("click", () => setAccent(b.dataset.accentBtn)));
+
+  /* ---------- Swatches & contrast ---------- */
+  function lum(hex){ const c=[1,3,5].map(i=>parseInt(hex.slice(i,i+2),16)/255).map(v=>v<=0.03928?v/12.92:Math.pow((v+0.055)/1.055,2.4)); return 0.2126*c[0]+0.7152*c[1]+0.0722*c[2]; }
+  function ratio(a,b){ const x=lum(a),y=lum(b); return (Math.max(x,y)+0.05)/(Math.min(x,y)+0.05); }
+  function swatch(parent, name, varName, use){
+    const hex = css(varName).toUpperCase();
+    const d = document.createElement("div"); d.className = "swatch";
+    d.innerHTML = `<div class="chipc" style="background:${hex}"></div><div class="info"><b>${name}</b><code>${hex}</code><span class="meta">${use}</span></div>`;
+    parent.appendChild(d);
+  }
+  function renderSwatches(){
+    const b = document.getElementById("sw-base"), d = document.getElementById("sw-data"), a = document.getElementById("sw-accent");
+    b.innerHTML = d.innerHTML = a.innerHTML = "";
+    swatch(b,"Navy 950","--navy-950","Hero, nav, footer, koppen");
+    swatch(b,"Navy 900","--navy-900","Kaarten op donker");
+    swatch(b,"Navy 700","--navy-700","Hover, randen op donker");
+    swatch(b,"Wit","--white","Achtergrond, kaarten");
+    swatch(b,"Mist","--mist","Afwisselende sectie");
+    swatch(b,"Lijn","--line","Rasterlijnen, randen");
+    swatch(b,"Tekst 2","--ink-2","Bijschriften op wit");
+    swatch(b,"Tekst 2 op navy","--ink-dark-2","Labels op donker");
+    swatch(d,"Reeks 1 · wit","--d1","Realisatie");
+    swatch(d,"Reeks 2 · wit","--d2","Tweede reeks");
+    swatch(d,"Reeks 3 · wit","--d3","Budget / vergelijking");
+    swatch(d,"Reeks 1 · navy","--dd1","Realisatie op donker");
+    swatch(d,"Reeks 2 · navy","--dd2","Tweede reeks op donker");
+    swatch(d,"Reeks 3 · navy","--dd3","Derde reeks op donker");
+    swatch(a,"Accent","--accent","Knoppen en highlights op navy");
+    swatch(a,"Accent op wit","--accent-on-light","Highlight in grafieken op wit");
+    swatch(a,"Positief","--pos","Gunstige afwijking op wit");
+    swatch(a,"Negatief","--neg","Ongunstige afwijking op wit");
+    swatch(a,"Positief op navy","--pos-dark","Gunstig op donker");
+    swatch(a,"Negatief op navy","--neg-dark","Ongunstig op donker");
+  }
+  function renderContrast(){
+    const rows = [
+      ["--navy-950","--white","Koppen en tekst op wit","text"],
+      ["--ink-2","--white","Bijschriften op wit","text"],
+      ["--ink-2","--mist","Bijschriften op mist","text"],
+      ["--white","--navy-950","Tekst op navy","text"],
+      ["--ink-dark-2","--navy-950","Labels op navy","text"],
+      ["--accent-ink","--accent","Knoptekst op accent","text"],
+      ["--accent","--navy-950","Accent op navy (highlight)","graphic"],
+      ["--accent-on-light","--white","Accent op wit (grafiek, grote tekst)","graphic"],
+      ["--d1","--white","Datareeks 1 op wit","graphic"],
+      ["--d2","--white","Datareeks 2 op wit","graphic"],
+      ["--d3","--white","Datareeks 3 op wit","graphic"],
+      ["--dd1","--navy-950","Datareeks 1 op navy","graphic"],
+      ["--dd2","--navy-950","Datareeks 2 op navy","graphic"],
+      ["--dd3","--navy-950","Datareeks 3 op navy","graphic"],
+      ["--pos","--white","Positief op wit","text"],
+      ["--neg","--white","Negatief op wit","text"],
+      ["--pos-dark","--navy-950","Positief op navy","text"],
+      ["--neg-dark","--navy-950","Negatief op navy","text"],
+    ];
+    const tb = document.querySelector("#contrast tbody"); tb.innerHTML = "";
+    rows.forEach(([fg,bg,use,kind])=>{
+      const f=css(fg).toUpperCase(), b=css(bg).toUpperCase(), r=ratio(f,b), need = kind==="text"?4.5:3, ok=r>=need;
+      const tr=document.createElement("tr");
+      tr.innerHTML = `<td><span class="pair"><i style="background:${b};color:${f}">Aa</i>${f} op ${b}</span></td><td>${use}</td><td class="num">${r.toFixed(2).replace(".",",")}:1</td><td class="${ok?"pass":"fail"}">${ok?"✔ AA":"✘"} <span class="meta">(min. ${String(need).replace(".",",")}:1)</span></td>`;
+      tb.appendChild(tr);
+    });
+  }
+
+  /* ---------- Sparklines ---------- */
+  function drawSparks(){
+    document.querySelectorAll("[data-spark]").forEach(s=>{
+      s.innerHTML = "";
+      const v = s.dataset.spark.split(",").map(Number), min=Math.min(...v), max=Math.max(...v), W=120,H=28,p=3;
+      const pts = v.map((y,i)=>[p+i*(W-2*p)/(v.length-1), H-p-(y-min)/(max-min||1)*(H-2*p)]);
+      el("path",{d:"M"+pts.map(q=>q.join(",")).join("L")+`L${pts[pts.length-1][0]},${H}L${pts[0][0]},${H}Z`,fill:css("--d1"),"fill-opacity":"0.08"},s);
+      el("path",{d:"M"+pts.map(q=>q.join(",")).join("L"),fill:"none",stroke:css("--d1"),"stroke-width":"1.6"},s);
+      const e=pts[pts.length-1]; el("circle",{cx:e[0],cy:e[1],r:"2.6",fill:css("--d1")},s);
+    });
+  }
+
+  /* ---------- Hero line chart ---------- */
+  const MONTHS = ["jan","feb","mrt","apr","mei","jun","jul","aug","sep","okt","nov","dec"];
+  let heroData = [412,398,455,431,476,502,488,531,547,520,566,590];
+  let heroStart = 0, FORECAST = 3;
+  function drawHero(animate){
+    const svg = document.getElementById("hero-chart"); svg.innerHTML="";
+    const W=640,H=240,L=44,R=12,T=12,B=28, iw=W-L-R, ih=H-T-B;
+    const max = niceMax(Math.max(...heroData)*1.08), ticks=4;
+    const x = i => L + i*iw/(heroData.length-1), y = v => T + ih - v/max*ih;
+    for(let t=0;t<=ticks;t++){ const v=max*t/ticks, yy=y(v);
+      el("line",{x1:L,x2:W-R,y1:yy,y2:yy,stroke:css("--line-dark"),"stroke-width":"1"},svg);
+      const tx=el("text",{x:L-8,y:yy+4,"text-anchor":"end",fill:css("--ink-dark-2")},svg); tx.textContent=fmt(Math.round(v)); }
+    heroData.forEach((_,i)=>{ if(i%2===0||i===heroData.length-1){ const tx=el("text",{x:x(i),y:H-8,"text-anchor":"middle",fill:css("--ink-dark-2")},svg); tx.textContent=MONTHS[(heroStart+i)%12]; }});
+    const split = heroData.length-FORECAST-1;
+    const pts = heroData.map((v,i)=>[x(i),y(v)]);
+    const actual = pts.slice(0,split+1), fc = pts.slice(split);
+    el("path",{d:"M"+actual.map(p=>p.join(",")).join("L")+`L${actual[actual.length-1][0]},${T+ih}L${actual[0][0]},${T+ih}Z`,fill:css("--dd1"),"fill-opacity":"0.10"},svg);
+    const line = el("path",{d:"M"+actual.map(p=>p.join(",")).join("L"),fill:"none",stroke:css("--dd1"),"stroke-width":"2.5","stroke-linejoin":"round","stroke-linecap":"round"},svg);
+    const fl = el("path",{d:"M"+fc.map(p=>p.join(",")).join("L"),fill:"none",stroke:css("--accent"),"stroke-width":"2.5","stroke-dasharray":"6 6","stroke-linecap":"round"},svg);
+    const last = pts[pts.length-1];
+    const dot = el("circle",{cx:last[0],cy:last[1],r:"5",fill:css("--accent"),stroke:css("--navy-900"),"stroke-width":"2"},svg);
+    if(animate && !reduce){
+      const len = line.getTotalLength();
+      line.style.strokeDasharray = len; line.style.strokeDashoffset = len;
+      fl.style.opacity = 0; dot.style.opacity = 0;
+      requestAnimationFrame(()=>{ line.style.transition="stroke-dashoffset 1.5s cubic-bezier(.2,.7,.2,1)"; line.style.strokeDashoffset=0;
+        fl.style.transition="opacity .6s 1.3s"; fl.style.opacity=1; dot.style.transition="opacity .6s 1.5s"; dot.style.opacity=1; });
+    }
+  }
+  function countUp(){
+    if(reduce) return;
+    document.querySelectorAll("[data-count]").forEach(e=>{
+      const end=+e.dataset.count, pre=e.dataset.prefix||"", suf=e.dataset.suffix||"", t0=performance.now(), d=1200;
+      const step=t=>{ const p=Math.min(1,(t-t0)/d), v=Math.round(end*(1-Math.pow(1-p,3))); e.textContent=pre+fmt(v)+suf; if(p<1) requestAnimationFrame(step); };
+      requestAnimationFrame(step);
+    });
+  }
+  let paused = reduce, timer = null, heroVisible = true;
+  function tick(){
+    if(paused || !heroVisible) return;
+    const last = heroData[heroData.length-1];
+    const next = Math.max(300, Math.round(last + (Math.random()*60 - 24)));
+    heroData = heroData.slice(1).concat(next); heroStart=(heroStart+1)%12;
+    drawHero(false);
+    const k = document.querySelector('[data-count="590"]');
+    const actualNow = heroData[heroData.length-FORECAST-1];
+    if(k){ k.textContent = "€ " + fmt(actualNow) + "k"; }
+  }
+  const pauseBtn = document.getElementById("pause");
+  function setPaused(p){ paused=p; pauseBtn.setAttribute("aria-pressed",String(p)); pauseBtn.setAttribute("aria-label", p?"Animatie afspelen":"Animatie pauzeren");
+    document.getElementById("pause-icon").innerHTML = p ? '<path d="M3 1l9 6-9 6z" fill="currentColor"/>' : '<path d="M3 1v12M11 1v12" stroke="currentColor" stroke-width="2.2"/>'; }
+  pauseBtn.addEventListener("click",()=>setPaused(!paused));
+  setPaused(paused);
+  if("IntersectionObserver" in window){
+    new IntersectionObserver(es=>{ heroVisible = es[0].isIntersecting; }).observe(document.querySelector(".hero"));
+  }
+
+  /* ---------- Bar chart with slicers ---------- */
+  const ACT = [ 92, 88,104, 97,101,110, 86, 79,118,112,121,134];
+  const BUD = [ 90, 90,100,100,100,105, 95, 85,110,110,115,130];
+  let currentPeriod = "all";
+  function drawBars(period, animate){
+    const svg=document.getElementById("bar-chart"); svg.innerHTML="";
+    const idx = period==="all" ? ACT.map((_,i)=>i) : [0,1,2].map(j=>+period*3+j);
+    const W=900,H=300,L=48,R=12,T=16,B=32, iw=W-L-R, ih=H-T-B;
+    const max = niceMax(Math.max(...idx.map(i=>Math.max(ACT[i],BUD[i])))*1.05), ticks=4;
+    const y = v => T+ih-v/max*ih;
+    for(let t=0;t<=ticks;t++){ const v=max*t/ticks, yy=y(v);
+      el("line",{x1:L,x2:W-R,y1:yy,y2:yy,stroke:css("--line"),"stroke-width":"1"},svg);
+      const tx=el("text",{x:L-8,y:yy+4,"text-anchor":"end",fill:css("--ink-2")},svg); tx.textContent=fmt(Math.round(v)); }
+    let maxVarI = idx[0]; idx.forEach(i=>{ if(Math.abs(ACT[i]-BUD[i])>Math.abs(ACT[maxVarI]-BUD[maxVarI])) maxVarI=i; });
+    const slot = iw/idx.length, bw = Math.min(28, slot*0.3), gap=4;
+    idx.forEach((i,k)=>{
+      const cx = L + slot*k + slot/2;
+      const ha = ih-(y(ACT[i])-T), hb = ih-(y(BUD[i])-T);
+      const ra = el("rect",{x:cx-bw-gap/2,y:y(ACT[i]),width:bw,height:ha,rx:"2",fill: i===maxVarI ? css("--accent-on-light") : css("--d1")},svg);
+      const rb = el("rect",{x:cx+gap/2,y:y(BUD[i]),width:bw,height:hb,rx:"2",fill:css("--d3")},svg);
+      const tt = el("title",{},ra); tt.textContent = `${MONTHS[i]}: realisatie ${ACT[i]}k, budget ${BUD[i]}k`;
+      if(animate && !reduce){ [ra,rb].forEach(r=>{ r.style.transformOrigin=`0 ${T+ih}px`; r.style.transform="scaleY(0)"; r.style.transition="transform .3s cubic-bezier(.2,.7,.2,1)"; }); requestAnimationFrame(()=>requestAnimationFrame(()=>{ ra.style.transform=rb.style.transform="scaleY(1)"; })); }
+      const tx=el("text",{x:cx,y:H-10,"text-anchor":"middle",fill:css("--ink-2")},svg); tx.textContent=MONTHS[i];
+    });
+    const sa = idx.reduce((s,i)=>s+ACT[i],0), sb = idx.reduce((s,i)=>s+BUD[i],0), d=sa-sb;
+    document.getElementById("bar-summary").textContent = `Totaal ${period==="all"?"heel jaar":"Q"+(+period+1)}: realisatie € ${fmt(sa)}k tegen budget € ${fmt(sb)}k, verschil ${d>=0?"+":"−"}€ ${fmt(Math.abs(d))}k. Grootste afwijking: ${MONTHS[maxVarI]} (${ACT[maxVarI]-BUD[maxVarI]>=0?"+":"−"}${Math.abs(ACT[maxVarI]-BUD[maxVarI])}k).`;
+  }
+  document.querySelectorAll("[data-period]").forEach(b=>b.addEventListener("click",()=>{
+    currentPeriod=b.dataset.period;
+    document.querySelectorAll("[data-period]").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));
+    drawBars(currentPeriod,true);
+  }));
+
+  /* ---------- Scroll reveal ---------- */
+  function setupReveal(){
+    if(reduce || !("IntersectionObserver" in window)) return;
+    const items = document.querySelectorAll(".sg-head, .card, .three, .two, .swatches, .type-row, .motion-list");
+    const io = new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add("reveal-in"); e.target.classList.remove("reveal-pre"); io.unobserve(e.target); } }),{rootMargin:"0px 0px -8% 0px"});
+    items.forEach(it=>{ if(it.getBoundingClientRect().top > window.innerHeight){ it.classList.add("reveal-pre"); io.observe(it); } });
+  }
+
+  /* ---------- Init ---------- */
+  let saved = "gold"; try { saved = localStorage.getItem("gsf-accent") || "gold"; } catch(e) {}
+  document.documentElement.setAttribute("data-accent", saved);
+  document.querySelectorAll("[data-accent-btn]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.accentBtn === saved)));
+  renderSwatches(); renderContrast(); drawSparks(); drawBars("all", false); drawHero(true); countUp(); setupReveal();
+  if(!reduce) timer = setInterval(tick, 7000);
+})();
+</script>
+
+</body>
+</html>

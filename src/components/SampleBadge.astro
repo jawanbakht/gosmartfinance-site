@@ -1,0 +1,9 @@
+---
+// Verplicht label bij elk dashboard met voorbeelddata.
+interface Props { onDark?: boolean }
+const { onDark = false } = Astro.props;
+---
+<span class={`inline-flex items-center gap-2 rounded-full border border-current px-2.5 py-1 text-xs font-semibold uppercase tracking-[.06em] ${onDark ? "text-ink-dark-2" : "text-ink-2"}`}>
+  <span class="w-1.5 h-1.5 rounded-full bg-current" aria-hidden="true"></span>
+  Voorbeelddata · fictief bedrijf
+</span>

@@ -1,0 +1,25 @@
+---
+// Knop. variant: "accent" (op navy), "primary" (op wit), "secondary" (rand).
+interface Props {
+  href: string;
+  variant?: "accent" | "primary" | "secondary";
+  onDark?: boolean;
+  arrow?: boolean;
+  class?: string;
+}
+const { href, variant = "primary", onDark = false, arrow = false, class: extra = "" } = Astro.props;
+
+const base =
+  "group inline-flex items-center gap-2.5 rounded-full px-[22px] py-3.5 text-[15px] font-semibold leading-none whitespace-nowrap border transition-[transform,background-color,box-shadow,color] duration-150 ease-[var(--ease-calm)]";
+const variants = {
+  accent: "bg-accent text-navy-950 border-transparent hover:-translate-y-px hover:shadow-[0_6px_18px_rgba(0,0,0,.25)]",
+  primary: "bg-navy-950 text-white border-transparent hover:bg-navy-700 hover:-translate-y-px",
+  secondary: onDark
+    ? "bg-transparent text-white border-ink-dark-2 hover:bg-white hover:text-navy-950"
+    : "bg-transparent text-navy-950 border-navy-950 hover:bg-navy-950 hover:text-white",
+};
+---
+<a href={href} class={`${base} ${variants[variant]} ${extra}`}>
+  <slot />
+  {arrow && <span aria-hidden="true" class="transition-transform duration-150 group-hover:translate-x-[3px]">→</span>}
+</a>

@@ -1,0 +1,18 @@
+---
+import { SITE, NAV } from "../config";
+---
+<footer class="bg-navy-950 text-ink-dark-2 text-sm">
+  <div class="wrap py-12 flex flex-wrap gap-x-10 gap-y-6 justify-between">
+    <div class="grid gap-1">
+      <span class="text-white font-semibold">{SITE.name}</span>
+      <span>{SITE.city}</span>
+      <a class="text-white hover:underline" href={`mailto:${SITE.email}`}>{SITE.email}</a>
+    </div>
+    <nav aria-label="Footer">
+      <ul class="flex flex-wrap gap-6">
+        {NAV.map((item) => <li><a class="hover:text-white" href={item.href}>{item.label}</a></li>)}
+        <li><a class="hover:text-white" href="/privacy">Privacy</a></li>
+      </ul>
+    </nav>
+  </div>
+</footer>

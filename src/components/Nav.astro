@@ -1,0 +1,42 @@
+---
+import { NAV, CTA, SITE } from "../config";
+import Button from "./Button.astro";
+import LogoMark from "./LogoMark.astro";
+const path = Astro.url.pathname.replace(/\/$/, "");
+---
+<header class="sticky top-[env(safe-area-inset-top,0px)] z-20 bg-navy-950 text-white border-b border-line-dark">
+  <div class="wrap flex items-center gap-8 py-4">
+    <a href="/" class="flex items-center gap-2.5 text-lg font-semibold tracking-[-0.01em] text-white no-underline whitespace-nowrap">
+      <LogoMark />
+      {SITE.name}
+    </a>
+    <nav aria-label="Hoofdmenu" class="ml-auto hidden md:block">
+      <ul class="flex gap-7">
+        {NAV.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              aria-current={path === item.href ? "page" : undefined}
+              class="text-[15px] font-medium text-ink-dark-2 py-1.5 border-b border-transparent hover:text-white hover:border-accent aria-[current=page]:text-white aria-[current=page]:border-accent transition-colors"
+            >{item.label}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+    <Button href={CTA.href} variant="accent" class="hidden md:inline-flex">{CTA.label}</Button>
+
+    <details class="ml-auto md:hidden group/menu">
+      <summary class="list-none grid place-items-center w-11 h-11 rounded-full border border-line-dark cursor-pointer" aria-label="Menu">
+        <svg width="18" height="12" viewBox="0 0 18 12" aria-hidden="true"><path d="M0 1h18M0 6h18M0 11h18" stroke="currentColor" stroke-width="1.6" /></svg>
+      </summary>
+      <div class="absolute inset-x-0 top-full bg-navy-950 border-b border-line-dark">
+        <ul class="wrap flex flex-col py-4">
+          {NAV.map((item) => (
+            <li><a href={item.href} class="block py-3 text-lg text-white border-b border-line-dark">{item.label}</a></li>
+          ))}
+          <li class="pt-5"><Button href={CTA.href} variant="accent">{CTA.label}</Button></li>
+        </ul>
+      </div>
+    </details>
+  </div>
+</header>

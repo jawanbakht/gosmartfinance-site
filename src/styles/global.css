@@ -1,0 +1,86 @@
+@import "tailwindcss";
+@import "@fontsource-variable/inter";
+
+/* Design-tokens. Contrast gecontroleerd op WCAG 2.1 AA, zie /stijlgids/. */
+@theme {
+  --color-navy-950: #0B1F3A;
+  --color-navy-900: #13294B;
+  --color-navy-700: #1B3A66;
+  --color-mist: #F4F6F9;
+  --color-line: #D9E2EC;
+  --color-line-dark: #24406A;
+  --color-ink: #0B1F3A;
+  --color-ink-2: #475467;
+  --color-ink-dark-2: #B9C6D8;
+
+  /* Datareeksen: d* op wit, dd* op navy (allemaal >= 3:1) */
+  --color-d1: #1F4E8C;
+  --color-d2: #2F6FB5;
+  --color-d3: #4A88C7;
+  --color-dd1: #9CC3E8;
+  --color-dd2: #6E8DB8;
+  --color-dd3: #4A88C7;
+
+  /* Status: alleen in data, altijd met ▲▼ en +/- */
+  --color-pos: #067647;
+  --color-neg: #B42318;
+  --color-pos-dark: #47CD89;
+  --color-neg-dark: #F97066;
+
+  /* Accent: gewisseld via data-accent op <html> */
+  --color-accent: var(--accent);
+  --color-accent-on-light: var(--accent-on-light);
+
+  --font-sans: "Inter Variable", "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+
+  --text-display: clamp(2.25rem, 5.2vw, 3.5rem);
+  --text-h2: clamp(1.75rem, 3.6vw, 2.5rem);
+  --text-h3: clamp(1.375rem, 2.4vw, 1.75rem);
+  --text-body: clamp(1rem, 1.25vw, 1.125rem);
+
+  --spacing-section: clamp(6rem, 11vw, 10rem);
+  --radius-card: 6px;
+  --ease-calm: cubic-bezier(.2, .7, .2, 1);
+}
+
+:root {
+  --accent: #E3B341;
+  --accent-on-light: #9C7A16;
+}
+:root[data-accent="teal"] {
+  --accent: #2BB3A3;
+  --accent-on-light: #0E7C72;
+}
+
+@layer base {
+  html { color-scheme: light; -webkit-font-smoothing: antialiased; }
+  body {
+    background: #fff;
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: 1.6;
+  }
+  h1, h2, h3 { font-weight: 600; letter-spacing: -0.02em; line-height: 1.15; text-wrap: balance; }
+  :focus-visible { outline: 3px solid var(--color-accent); outline-offset: 3px; border-radius: 2px; }
+}
+
+@layer components {
+  .wrap {
+    max-width: 1200px;
+    margin-inline: auto;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+  }
+  .eyebrow { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; font-weight: 600; }
+  .num { font-variant-numeric: tabular-nums; }
+}
+
+/* Scroll-reveal: alleen elementen die bij laden onder de vouw staan */
+.reveal-pre { opacity: 0; transform: translateY(16px); }
+.reveal-in { opacity: 1; transform: none; transition: opacity .6s var(--ease-calm), transform .6s var(--ease-calm); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
+  .reveal-pre { opacity: 1; transform: none; }
+}

@@ -1,0 +1,24 @@
+---
+// KPI-tegel. trend: "pos" (gunstig) of "neg" (ongunstig); kleur volgt de betekenis, niet de pijlrichting.
+interface Props {
+  label: string;
+  value: string;
+  delta?: string;
+  trend?: "pos" | "neg";
+  onDark?: boolean;
+}
+const { label, value, delta, trend = "pos", onDark = false } = Astro.props;
+const surface = onDark
+  ? "bg-navy-950 border-line-dark hover:shadow-[0_8px_20px_rgba(0,0,0,.35)]"
+  : "bg-white border-line hover:shadow-[0_8px_20px_rgba(11,31,58,.08)]";
+const labelColor = onDark ? "text-ink-dark-2" : "text-ink-2";
+const trendColor = onDark
+  ? (trend === "pos" ? "text-pos-dark" : "text-neg-dark")
+  : (trend === "pos" ? "text-pos" : "text-neg");
+---
+<div class={`grid gap-1.5 content-start rounded-[var(--radius-card)] border p-4 transition-[transform,box-shadow] duration-150 hover:-translate-y-0.5 ${surface}`}>
+  <span class={`text-[13px] font-medium ${labelColor}`}>{label}</span>
+  <span class="num text-[clamp(22px,2.6vw,30px)] font-semibold tracking-[-0.02em] leading-[1.1]">{value}</span>
+  {delta && <span class={`num text-[13px] font-semibold ${trendColor}`}>{delta}</span>}
+  <slot />
+</div>
