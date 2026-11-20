@@ -1,0 +1,74 @@
+---
+import Base from "../layouts/Base.astro";
+import PageHeader from "../components/PageHeader.astro";
+import SampleBadge from "../components/SampleBadge.astro";
+import ClosingCta from "../components/home/ClosingCta.astro";
+import { services } from "../data/services";
+
+const steps = [
+  { title: "Gratis gesprek van 20 minuten", text: "Je vertelt waar de tijd in je afsluiting of rapportage naartoe gaat." },
+  { title: "Plan van aanpak", text: "Je krijgt een voorstel: welke tool, wat het overneemt en wat ervoor nodig is." },
+  { title: "Inrichting op jouw data", text: "De tool wordt ingericht op jouw rekeningschema, kostenplaatsen en KPI's." },
+];
+---
+<Base
+  title="Reconciliatie, controlling en dashboards | Go Smart finance"
+  description="Wat elke module overneemt: reconciliatie, tussenrekeningen, variantieanalyse, forecast en managementdashboards. Per dienst concreet uitgelegd."
+>
+  <PageHeader
+    eyebrow="Diensten"
+    title="Wat de tools overnemen, en wat je ervoor terugkrijgt."
+    intro="Vier modules, elk voor een stuk werk dat elke maand terugkomt. Per module lees je welk handwerk verdwijnt en hoe het resultaat eruitziet."
+  >
+    <nav aria-label="Diensten op deze pagina" class="pt-2">
+      <ul class="flex flex-wrap gap-x-6 gap-y-3 text-[15px]">
+        {services.map((s) => <li><a href={`#${s.id}`} class="text-white border-b border-line-dark pb-0.5 hover:border-accent transition-colors">{s.title}</a></li>)}
+      </ul>
+    </nav>
+  </PageHeader>
+
+  {services.map((s, i) => (
+    <section id={s.id} class={`py-section scroll-mt-20 ${i % 2 === 1 ? "bg-mist" : ""}`} aria-labelledby={`${s.id}-title`} data-reveal>
+      <div class="wrap grid gap-12 md:grid-cols-2 items-start">
+        <div class={`grid gap-6 ${i % 2 === 1 ? "md:order-2" : ""}`}>
+          <hr class="border-0 border-t border-ink" />
+          <span class="eyebrow text-ink-2 num">Module {i + 1} van {services.length}</span>
+          <h2 id={`${s.id}-title`} class="text-h2">{s.title}</h2>
+          <dl class="grid gap-5">
+            <div class="grid gap-1"><dt class="eyebrow text-ink-2">Nu</dt><dd class="text-ink-2">{s.now}</dd></div>
+            <div class="grid gap-1"><dt class="eyebrow text-ink-2">Wat verdwijnt</dt><dd>{s.gone}</dd></div>
+            <div class="grid gap-1"><dt class="eyebrow text-ink-2">Wat je terugkrijgt</dt><dd class="font-medium">{s.back}</dd></div>
+          </dl>
+        </div>
+        <figure class="grid gap-4 min-w-0 rounded-[var(--radius-card)] border border-line bg-white p-[clamp(16px,2.4vw,28px)]">
+          <figcaption class="flex flex-wrap justify-between gap-3 items-baseline">
+            <span class="font-semibold">{s.caption}</span>
+            <SampleBadge />
+          </figcaption>
+          <s.Visual />
+        </figure>
+      </div>
+    </section>
+  ))}
+
+  <section class="py-section" aria-labelledby="steps-title" data-reveal>
+    <div class="wrap grid gap-12">
+      <div class="grid gap-5 max-w-[720px]">
+        <hr class="border-0 border-t border-ink" />
+        <span class="eyebrow text-ink-2">Werkwijze</span>
+        <h2 id="steps-title" class="text-h2">Hoe we starten.</h2>
+      </div>
+      <ol class="grid gap-8 md:grid-cols-3">
+        {steps.map((st, i) => (
+          <li class="grid gap-3 content-start border-t-2 border-navy-950 pt-5">
+            <span class="num text-sm font-semibold text-ink-2">Stap {i + 1}</span>
+            <h3 class="text-[22px] font-semibold tracking-[-0.02em]">{st.title}</h3>
+            <p class="text-ink-2">{st.text}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <ClosingCta />
+</Base>

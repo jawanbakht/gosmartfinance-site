@@ -1,0 +1,17 @@
+---
+import Base from "../layouts/Base.astro";
+import Button from "../components/Button.astro";
+---
+<Base title="Bericht ontvangen | Go Smart finance" description="Je bericht is binnen. Je hoort binnen 1 werkdag van Sakhi.">
+  <section class="bg-navy-950 text-white py-[clamp(80px,12vw,160px)]">
+    <div class="wrap grid gap-6 max-w-[760px]">
+      <span class="eyebrow text-ink-dark-2">Bericht ontvangen</span>
+      <h1 class="text-display">Dank je. Je bericht is binnen.</h1>
+      <p class="text-ink-dark-2">Je hoort binnen 1 werkdag van Sakhi.</p>
+      <div class="pt-2 flex flex-wrap gap-4">
+        <Button href="/demo" variant="accent" arrow>Bekijk intussen het demo-dashboard</Button>
+        <Button href="/" variant="secondary" onDark>Terug naar home</Button>
+      </div>
+    </div>
+  </section>
+</Base>

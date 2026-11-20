@@ -1,0 +1,68 @@
+---
+import Base from "../layouts/Base.astro";
+import { SITE } from "../config";
+
+const field = "w-full rounded-[var(--radius-card)] border border-line bg-white px-4 py-3 text-[16px] text-ink placeholder:text-ink-2 focus:border-navy-950 focus:outline-none focus-visible:outline-3 focus-visible:outline-accent";
+const label = "text-[15px] font-semibold";
+---
+<Base
+  title="Plan een gratis gesprek | Go Smart finance"
+  description="Vertel waar de tijd in je afsluiting of rapportage naartoe gaat. Gratis gesprek van 20 minuten. Go Smart finance, Zoetermeer."
+>
+  <section class="bg-navy-950 text-white pt-[clamp(56px,8vw,112px)] pb-[clamp(48px,7vw,96px)]">
+    <div class="wrap grid gap-6 max-w-[880px]">
+      <span class="eyebrow text-ink-dark-2">Contact</span>
+      <h1 class="text-display">Plan een gratis gesprek</h1>
+      <p class="text-ink-dark-2 max-w-[60ch]">Vertel kort waar je tegenaan loopt. Je krijgt binnen 1 werkdag een reactie van Sakhi zelf.</p>
+    </div>
+  </section>
+
+  <section class="py-[clamp(56px,8vw,112px)]">
+    <div class="wrap grid gap-16 md:grid-cols-[7fr_4fr]">
+      <form name="contact" method="POST" action="/bedankt" data-netlify="true" netlify-honeypot="bot-field" class="grid gap-6 max-w-[640px]">
+        <input type="hidden" name="form-name" value="contact" />
+        <p class="hidden"><label>Laat dit veld leeg <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
+
+        <div class="grid gap-6 sm:grid-cols-2">
+          <div class="grid gap-2">
+            <label for="naam" class={label}>Naam <span aria-hidden="true">*</span></label>
+            <input id="naam" name="naam" type="text" required autocomplete="name" class={field} />
+          </div>
+          <div class="grid gap-2">
+            <label for="email" class={label}>E-mail <span aria-hidden="true">*</span></label>
+            <input id="email" name="email" type="email" required autocomplete="email" class={field} />
+          </div>
+          <div class="grid gap-2">
+            <label for="bedrijf" class={label}>Bedrijf</label>
+            <input id="bedrijf" name="bedrijf" type="text" autocomplete="organization" class={field} />
+          </div>
+          <div class="grid gap-2">
+            <label for="telefoon" class={label}>Telefoon <span class="font-normal text-ink-2">(optioneel)</span></label>
+            <input id="telefoon" name="telefoon" type="tel" autocomplete="tel" class={field} />
+          </div>
+        </div>
+        <div class="grid gap-2">
+          <label for="bericht" class={label}>Bericht <span aria-hidden="true">*</span></label>
+          <textarea id="bericht" name="bericht" rows="6" required class={field} placeholder="Bijvoorbeeld: de bankaansluiting en de tussenrekeningen kosten ons elke maand de meeste tijd."></textarea>
+        </div>
+        <p class="text-sm text-ink-2">Velden met * zijn verplicht. We gebruiken je gegevens alleen om op je bericht te reageren. Lees de <a href="/privacy" class="underline hover:text-ink">privacyverklaring</a>.</p>
+        <div>
+          <button type="submit" class="group inline-flex items-center gap-2.5 rounded-full px-[22px] py-3.5 text-[15px] font-semibold leading-none bg-navy-950 text-white hover:bg-navy-700 hover:-translate-y-px transition-[transform,background-color] cursor-pointer">
+            Verstuur je bericht <span aria-hidden="true" class="transition-transform group-hover:translate-x-[3px]">→</span>
+          </button>
+        </div>
+      </form>
+
+      <aside class="grid gap-6 content-start" aria-labelledby="direct-title">
+        <hr class="border-0 border-t border-ink" />
+        <h2 id="direct-title" class="eyebrow text-ink-2">Direct contact</h2>
+        <dl class="grid gap-5">
+          <div class="grid gap-1"><dt class="text-sm text-ink-2">E-mail</dt><dd><a href={`mailto:${SITE.email}`} class="font-semibold border-b border-line hover:border-accent-on-light">{SITE.email}</a></dd></div>
+          <div class="grid gap-1"><dt class="text-sm text-ink-2">Vestiging</dt><dd>{SITE.city}</dd></div>
+          <div class="grid gap-1"><dt class="text-sm text-ink-2">Reactietijd</dt><dd>Binnen 1 werkdag</dd></div>
+          <div class="grid gap-1"><dt class="text-sm text-ink-2">Gratis gesprek</dt><dd>20 minuten, je zit nergens aan vast</dd></div>
+        </dl>
+      </aside>
+    </div>
+  </section>
+</Base>

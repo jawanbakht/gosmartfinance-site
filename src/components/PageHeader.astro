@@ -1,0 +1,15 @@
+---
+// Paginakop op navy: eyebrow, H1 en korte intro.
+interface Props { eyebrow: string; title: string; intro?: string }
+const { eyebrow, title, intro } = Astro.props;
+---
+<section class="bg-navy-950 text-white pt-[clamp(56px,8vw,112px)] pb-[clamp(48px,7vw,96px)]">
+  <div class="wrap">
+    <div class="grid gap-6 max-w-[880px]">
+      <span class="eyebrow text-ink-dark-2">{eyebrow}</span>
+      <h1 class="text-display">{title}</h1>
+      {intro && <p class="text-ink-dark-2 max-w-[60ch]">{intro}</p>}
+      <slot />
+    </div>
+  </div>
+</section>

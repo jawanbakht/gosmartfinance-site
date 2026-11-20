@@ -1,0 +1,77 @@
+---
+import Base from "../layouts/Base.astro";
+import Button from "../components/Button.astro";
+
+const career = [
+  { when: "Sinds 2003", what: "Werkzaam in finance" },
+  { when: "Ruim 10 jaar", what: "Financial manager bij één werkgever" },
+  { when: "4 jaar", what: "Credit manager" },
+  { when: "Sinds 2018", what: "Interim: manager finance en business controller, head of finance, financial controller, financieel manager, manager project business services" },
+  { when: "Daarnaast", what: "Eigen e-commercebedrijf opgericht en gerund" },
+];
+const person = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Sakhi Jawanbakht",
+  jobTitle: "Oprichter",
+  worksFor: { "@type": "Organization", name: "Go Smart finance" },
+  address: { "@type": "PostalAddress", addressLocality: "Zoetermeer", addressCountry: "NL" },
+};
+---
+<Base
+  title="Sakhi Jawanbakht, oprichter | Go Smart finance"
+  description="Sinds 2003 in finance, als financial manager, credit manager en interim controller. Nu bouwt Sakhi de tools die hij zelf had willen hebben."
+>
+  <section class="bg-navy-950 text-white pt-[clamp(56px,8vw,112px)] pb-[clamp(48px,7vw,96px)]">
+    <div class="wrap grid gap-12 md:grid-cols-[7fr_5fr] items-end">
+      <div class="grid gap-6">
+        <span class="eyebrow text-ink-dark-2">Over</span>
+        <h1 class="text-display">Ik bouw de tools die ik zelf had willen hebben.</h1>
+      </div>
+      <div class="aspect-[4/5] max-w-[380px] w-full rounded-[var(--radius-card)] bg-navy-900 border border-line-dark grid place-items-center text-ink-dark-2 text-sm" role="img" aria-label="Portret van Sakhi Jawanbakht (foto volgt)">
+        Foto volgt
+      </div>
+    </div>
+  </section>
+
+  <article class="py-section">
+    <div class="wrap grid gap-16 md:grid-cols-[7fr_5fr]">
+      <div class="grid gap-6 text-[clamp(17px,1.4vw,19px)] leading-[1.7] max-w-[62ch]">
+        <p class="text-[clamp(20px,2vw,24px)] leading-snug font-medium tracking-[-0.01em]">Het is de derde werkdag van de maand. De bank is aangesloten. Op de tussenrekening staan nog posten die niemand kan verklaren. De directie vraagt wanneer de cijfers komen.</p>
+        <p>Die situatie ken ik van binnenuit. Ik werk sinds 2003 in finance: ruim tien jaar als financial manager bij één werkgever, daarna vier jaar als credit manager. Sinds 2018 werk ik interim. Ik was manager finance en business controller, head of finance, financial controller, financieel manager en manager project business services, bij bedrijven in onder meer productie, handel, vastgoedonderhoud en infra.</p>
+        <p>Daarnaast heb ik zelf een e-commercebedrijf opgericht en gerund. Daar zat ik aan de andere kant van de tafel. Als ondernemer wilde ik snel weten of het goed ging, zonder te wachten op de maandrapportage.</p>
+        <p>Ik ben geen IT'er. Ik ben financial, met een opleiding bedrijfskunde en een postgraduate in accounting. Mijn werk ging over maandafsluiting en reconciliatie, financial en managerial control, cashflow, risico- en kostenmanagement, contracten en tenders, S&amp;OP en de implementatie van software.</p>
+        <p>Bij elke opdracht zag ik hetzelfde patroon. Goede mensen die hun tijd kwijt zijn aan zoeken, kopiëren en aansluiten. Excel-bestanden die alleen de maker begrijpt. Rapportages die klaar zijn als de beslissing al genomen is.</p>
+        <p>Go Smart finance is mijn antwoord daarop. Ik bouw tools die het handwerk overnemen, zodat de controller tijd overhoudt voor de analyse en het gesprek met de directie. Ik ontwerp ze vanuit de vragen die ik zelf elke maand had.</p>
+        <p class="font-semibold">Time is Gold. In finance merk je dat elke maand opnieuw, op de laatste dag van de afsluiting.</p>
+        <p class="font-medium">Sakhi Jawanbakht</p>
+      </div>
+
+      <aside class="grid gap-6 content-start" aria-labelledby="loopbaan-title">
+        <hr class="border-0 border-t border-ink" />
+        <h2 id="loopbaan-title" class="eyebrow text-ink-2">Loopbaan</h2>
+        <ol class="grid gap-0">
+          {career.map((c) => (
+            <li class="grid gap-1 py-4 border-b border-line">
+              <span class="num text-sm font-semibold text-ink-2">{c.when}</span>
+              <span>{c.what}</span>
+            </li>
+          ))}
+        </ol>
+        <dl class="grid gap-4 pt-2">
+          <div class="grid gap-1"><dt class="eyebrow text-ink-2">Opleiding</dt><dd>Bedrijfskunde, postgraduate accounting</dd></div>
+          <div class="grid gap-1"><dt class="eyebrow text-ink-2">Sectoren</dt><dd>Productie, handel, vastgoedonderhoud, infra</dd></div>
+        </dl>
+      </aside>
+    </div>
+  </article>
+
+  <section class="py-section bg-navy-950 text-white" aria-labelledby="over-cta" data-reveal>
+    <div class="wrap grid gap-6 max-w-[760px]">
+      <h2 id="over-cta" class="text-h2">Herken je de derde werkdag?</h2>
+      <p class="text-ink-dark-2">Plan een gratis gesprek van 20 minuten met Sakhi.</p>
+      <div><Button href="/contact" variant="accent" arrow>Plan een gratis gesprek met Sakhi</Button></div>
+    </div>
+  </section>
+  <script type="application/ld+json" set:html={JSON.stringify(person)}></script>
+</Base>

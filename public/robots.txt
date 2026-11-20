@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /bedankt
+Disallow: /stijlgids/
+
+Sitemap: https://www.gosmartfinance.com/sitemap.xml
